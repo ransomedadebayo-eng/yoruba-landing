@@ -229,9 +229,9 @@ export default function Mockup() {
 
       {/* Mockup label */}
       <div style={{ textAlign: "center", padding: "20px 24px 40px", borderTop: "1px solid #2A2015", marginTop: 20 }}>
-        <p style={{ color: "#2A2015", fontSize: 11 }}>
-          This is a UI mockup — not a live product. Landing page at{" "}
-          <a href="/" style={{ color: "#7A6A52", textDecoration: "underline" }}>/ home</a>
+        <p style={{ color: "#5A4A38", fontSize: 11 }}>
+          UI mockup — not a live product.{" "}
+          <a href="/" style={{ color: "#8A7A62", textDecoration: "underline" }}>← Back to landing page</a>
         </p>
       </div>
     </div>
