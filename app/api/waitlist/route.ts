@@ -4,10 +4,10 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { firstName, email, persona, level, budget, painPoint } = body;
+    const { firstName, email, language, persona, level, budget, painPoint } = body;
 
     // Basic validation
-    if (!firstName || !email || !persona || !level || !budget) {
+    if (!firstName || !email || !language || !persona || !level || !budget) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
         {
           first_name: firstName,
           email: email.toLowerCase().trim(),
+          language,
           persona,
           level,
           budget,
@@ -51,6 +52,7 @@ export async function POST(req: NextRequest) {
       console.log("📋 Waitlist submission (no DB configured):", {
         firstName,
         email,
+        language,
         persona,
         level,
         budget,

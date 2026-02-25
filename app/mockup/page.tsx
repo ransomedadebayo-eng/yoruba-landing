@@ -1,27 +1,55 @@
 "use client";
 
-// Platform UI Mockup — shows what the learning platform would look like
+// Platform UI Mockup — African Heritage Language Platform
 // Accessible at /mockup — share this link as a design reference
+
+const LANG_TRACKS = [
+  { code: "YO", label: "Yoruba",  flag: "🇳🇬", active: true },
+  { code: "SW", label: "Swahili", flag: "🇰🇪", active: false },
+  { code: "TW", label: "Twi",     flag: "🇬🇭", active: false },
+  { code: "IG", label: "Igbo",    flag: "🇳🇬", active: false },
+];
 
 export default function Mockup() {
   const episodes = [
-    { num: 1, title: "The Sound System", duration: "14 min", progress: 100, tags: ["Tones", "Phonetics"] },
-    { num: 2, title: "Greetings & Respect", duration: "12 min", progress: 60, tags: ["Greetings", "Etiquette"] },
-    { num: 3, title: "The Market Hustle", duration: "16 min", progress: 0, tags: ["Numbers", "Transactions"] },
-    { num: 4, title: "Family Structures", duration: "13 min", progress: 0, tags: ["Family", "Kinship"] },
-    { num: 5, title: "Food & Celebration", duration: "15 min", progress: 0, tags: ["Food", "Festivals"] },
+    { num: 1, title: "The Sound System",    duration: "14 min", progress: 100, tags: ["Tones", "Phonetics"] },
+    { num: 2, title: "Greetings & Respect", duration: "12 min", progress: 60,  tags: ["Greetings", "Etiquette"] },
+    { num: 3, title: "The Market Hustle",   duration: "16 min", progress: 0,   tags: ["Numbers", "Transactions"] },
+    { num: 4, title: "Family Structures",   duration: "13 min", progress: 0,   tags: ["Family", "Kinship"] },
+    { num: 5, title: "Food & Celebration",  duration: "15 min", progress: 0,   tags: ["Food", "Festivals"] },
   ];
 
   return (
     <div style={{ background: "#0A0805", minHeight: "100vh", fontFamily: "var(--font-body, Inter, sans-serif)" }}>
 
-      {/* Top bar */}
+      {/* ── TOP NAV ── */}
       <div style={{ background: "rgba(10,8,5,0.95)", borderBottom: "1px solid #2A2015", padding: "0 24px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 56 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#C8932A", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#0A0805" }}>À</div>
             <span style={{ color: "#F5EDD6", fontWeight: 600, fontSize: 14 }}>[Platform Name]</span>
           </div>
+
+          {/* Language track switcher */}
+          <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+            {LANG_TRACKS.map((track) => (
+              <div key={track.code} style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "4px 10px", borderRadius: 8, cursor: "pointer",
+                background: track.active ? "rgba(200,147,42,0.12)" : "transparent",
+                border: `1px solid ${track.active ? "rgba(200,147,42,0.35)" : "transparent"}`,
+                fontSize: 12,
+                color: track.active ? "#C8932A" : "#7A6A52",
+                fontWeight: track.active ? 600 : 400,
+              }}>
+                <span>{track.flag}</span>
+                <span>{track.label}</span>
+              </div>
+            ))}
+            <div style={{ width: 1, height: 20, background: "#2A2015", margin: "0 4px" }} />
+            <span style={{ fontSize: 11, color: "#7A6A52", cursor: "pointer", padding: "4px 8px" }}>+ Add language</span>
+          </div>
+
           <nav style={{ display: "flex", gap: 24, alignItems: "center" }}>
             {["Learn", "Culture", "Practice", "Community"].map((item) => (
               <span key={item} style={{ color: item === "Learn" ? "#C8932A" : "#7A6A52", fontSize: 13, cursor: "pointer", fontWeight: item === "Learn" ? 600 : 400 }}>{item}</span>
@@ -37,9 +65,7 @@ export default function Mockup() {
         <div>
           {/* Video player */}
           <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", background: "#141009", border: "1px solid #2A2015", aspectRatio: "16/9", marginBottom: 20 }}>
-            {/* Fake video frame */}
             <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg, #1a1208 0%, #0d0a05 100%)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-              {/* Scene backdrop */}
               <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 60%, rgba(200,147,42,0.08) 0%, transparent 70%)" }} />
 
               {/* Play button */}
@@ -49,7 +75,7 @@ export default function Mockup() {
 
               {/* Episode badge */}
               <div style={{ position: "absolute", top: 16, left: 16, background: "rgba(10,8,5,0.8)", border: "1px solid #2A2015", borderRadius: 8, padding: "4px 10px", fontSize: 11, color: "#C8932A", fontWeight: 600 }}>
-                S1 · E2 — Greetings & Respect
+                🇳🇬 Yoruba · S1 · E2 — Greetings & Respect
               </div>
 
               {/* Interactive subtitle bar */}
@@ -90,7 +116,7 @@ export default function Mockup() {
                 <h2 style={{ color: "#F5EDD6", fontSize: 22, fontWeight: 700, fontFamily: "var(--font-display, Georgia, serif)", marginBottom: 4 }}>
                   Greetings & Respect
                 </h2>
-                <p style={{ color: "#7A6A52", fontSize: 13 }}>Season 1, Episode 2 · 12 min · CEFR A1</p>
+                <p style={{ color: "#7A6A52", fontSize: 13 }}>Yoruba · Season 1, Episode 2 · 12 min · CEFR A1</p>
               </div>
               <div style={{ display: "flex", gap: 8 }}>
                 {["Greetings", "Etiquette", "Respect"].map((tag) => (
@@ -113,13 +139,14 @@ export default function Mockup() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
               {[
                 { yoruba: "E káàárọ̀", english: "Good morning", tone: "↗↘↗" },
-                { yoruba: "E káàbọ̀", english: "Welcome", tone: "↗↘↘" },
-                { yoruba: "Dáadáa ni", english: "I am fine", tone: "↘↗ ↗" },
-                { yoruba: "Ẹ jọ̀ọ́", english: "Please", tone: "↗ ↘↗" },
-                { yoruba: "Ẹ ṣéun", english: "Thank you", tone: "↗↘↗" },
-                { yoruba: "O dàbọ̀", english: "Goodbye", tone: "↗↘↘" },
+                { yoruba: "E káàbọ̀",  english: "Welcome",      tone: "↗↘↘" },
+                { yoruba: "Dáadáa ni", english: "I am fine",    tone: "↘↗ ↗" },
+                { yoruba: "Ẹ jọ̀ọ́",   english: "Please",       tone: "↗ ↘↗" },
+                { yoruba: "Ẹ ṣéun",   english: "Thank you",    tone: "↗↘↗" },
+                { yoruba: "O dàbọ̀",   english: "Goodbye",      tone: "↗↘↘" },
               ].map((w) => (
-                <div key={w.yoruba} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid #2A2015", borderRadius: 8, padding: "8px 10px", cursor: "pointer" }}
+                <div key={w.yoruba}
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid #2A2015", borderRadius: 8, padding: "8px 10px", cursor: "pointer" }}
                   onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(200,147,42,0.4)")}
                   onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#2A2015")}>
                   <div style={{ color: "#F5EDD6", fontSize: 13, fontWeight: 600, marginBottom: 2 }}>{w.yoruba}</div>
@@ -166,7 +193,7 @@ export default function Mockup() {
             {/* Proficiency bar */}
             <div style={{ marginBottom: 8 }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                <span style={{ fontSize: 11, color: "#7A6A52" }}>A1 progress</span>
+                <span style={{ fontSize: 11, color: "#7A6A52" }}>Yoruba A1 progress</span>
                 <span style={{ fontSize: 11, color: "#C8932A", fontWeight: 600 }}>34%</span>
               </div>
               <div style={{ height: 4, background: "#2A2015", borderRadius: 99 }}>
@@ -178,8 +205,11 @@ export default function Mockup() {
 
           {/* Season 1 episode list */}
           <div style={{ background: "#141009", border: "1px solid #2A2015", borderRadius: 16, padding: 20 }}>
-            <p style={{ color: "#F5EDD6", fontSize: 13, fontWeight: 600, marginBottom: 4 }}>Season 1 — The Foundations</p>
-            <p style={{ color: "#7A6A52", fontSize: 11, marginBottom: 16 }}>8 episodes · CEFR A1</p>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+              <span style={{ fontSize: 14 }}>🇳🇬</span>
+              <p style={{ color: "#F5EDD6", fontSize: 13, fontWeight: 600 }}>Yoruba — Season 1</p>
+            </div>
+            <p style={{ color: "#7A6A52", fontSize: 11, marginBottom: 16 }}>The Foundations · 8 episodes · CEFR A1</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {episodes.map((ep) => (
                 <div key={ep.num}
@@ -216,10 +246,30 @@ export default function Mockup() {
             </div>
           </div>
 
+          {/* Other language tracks CTA */}
+          <div style={{ background: "#141009", border: "1px solid #2A2015", borderRadius: 16, padding: 16 }}>
+            <p style={{ color: "#F5EDD6", fontSize: 12, fontWeight: 600, marginBottom: 8 }}>Browse language tracks</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {[
+                { flag: "🇰🇪", lang: "Swahili", status: "Coming soon" },
+                { flag: "🇬🇭", lang: "Twi",     status: "Coming soon" },
+                { flag: "🇳🇬", lang: "Igbo",    status: "Coming soon" },
+              ].map((t) => (
+                <div key={t.lang} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 10px", borderRadius: 8, background: "rgba(255,255,255,0.02)", border: "1px solid #2A2015" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: 14 }}>{t.flag}</span>
+                    <span style={{ fontSize: 12, color: "#7A6A52" }}>{t.lang}</span>
+                  </div>
+                  <span style={{ fontSize: 10, color: "#5A4A38", background: "#1C1710", borderRadius: 4, padding: "2px 6px" }}>{t.status}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Flashcard CTA */}
           <div style={{ background: "rgba(200,147,42,0.06)", border: "1px solid rgba(200,147,42,0.2)", borderRadius: 16, padding: 16, textAlign: "center" }}>
             <p style={{ color: "#C8932A", fontSize: 13, fontWeight: 600, marginBottom: 4 }}>📚 Flashcard deck ready</p>
-            <p style={{ color: "#7A6A52", fontSize: 11, marginBottom: 12 }}>12 words from episodes 1 & 2. Due for review.</p>
+            <p style={{ color: "#7A6A52", fontSize: 11, marginBottom: 12 }}>12 Yoruba words from episodes 1 & 2. Due for review.</p>
             <button style={{ width: "100%", background: "#C8932A", color: "#0A0805", border: "none", borderRadius: 8, padding: "8px 0", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
               Review now
             </button>

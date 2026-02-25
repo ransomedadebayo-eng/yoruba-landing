@@ -3,17 +3,30 @@
 import { useState } from "react";
 import { CheckCircle, ChevronDown } from "lucide-react";
 
+const LANGUAGES = [
+  { value: "yoruba",   label: "Yoruba",      region: "Nigeria · Benin · Togo" },
+  { value: "swahili",  label: "Swahili",     region: "Kenya · Tanzania · Uganda" },
+  { value: "twi",      label: "Twi / Akan",  region: "Ghana · Ivory Coast" },
+  { value: "igbo",     label: "Igbo",        region: "Nigeria" },
+  { value: "amharic",  label: "Amharic",     region: "Ethiopia · Eritrea" },
+  { value: "hausa",    label: "Hausa",       region: "Nigeria · Niger · Ghana" },
+  { value: "zulu",     label: "Zulu / Xhosa",region: "South Africa" },
+  { value: "wolof",    label: "Wolof",       region: "Senegal · Gambia" },
+  { value: "somali",   label: "Somali",      region: "Somalia · Ethiopia · Kenya" },
+  { value: "other",    label: "Other African language", region: "" },
+];
+
 const PERSONAS = [
-  { value: "heritage", label: "2nd/3rd gen Yoruba reconnecting with my culture" },
-  { value: "parent",   label: "Parent wanting my kids to learn Yoruba" },
-  { value: "partner",  label: "Partner/spouse of a Yoruba speaker" },
-  { value: "enthusiast", label: "Interested in Yoruba culture & language" },
+  { value: "heritage",   label: "2nd/3rd gen diaspora reconnecting with my heritage language" },
+  { value: "parent",     label: "Parent wanting my kids to speak our family's language" },
+  { value: "partner",    label: "Partner/spouse of an African language speaker" },
+  { value: "enthusiast", label: "Interested in African culture and languages" },
 ];
 
 const LEVELS = [
-  { value: "none",          label: "Complete beginner — I know nothing" },
-  { value: "passive",       label: "I understand some but can't speak" },
-  { value: "basic",         label: "I can say a few words/phrases" },
+  { value: "none",           label: "Complete beginner — I know nothing" },
+  { value: "passive",        label: "I understand some but can't speak" },
+  { value: "basic",          label: "I can say a few words/phrases" },
   { value: "conversational", label: "Conversational but want to improve" },
 ];
 
@@ -26,49 +39,53 @@ const BUDGETS = [
 ];
 
 const PAIN_POINTS = [
-  "Speaking Yoruba with my family",
-  "Understanding conversations at events",
-  "Visiting Nigeria and feeling like an outsider",
-  "Passing culture on to my children",
-  "Feeling disconnected from my identity",
+  "Feeling left out at family gatherings",
+  "Connecting with grandparents before it's too late",
+  "Raising my children with cultural and language fluency",
+  "Understanding conversations at cultural events",
+  "Feeling disconnected from my African identity",
+  "Visiting the home country and not being able to communicate",
 ];
 
 const PAIN_CARDS = [
   {
     icon: "😶",
     title: "Silent at family gatherings",
-    body: "You understand 20% of what's said. You laugh when others laugh. You nod. But you can't really participate.",
+    body: "You understand fragments of what's said. You laugh when others laugh. You nod. But you can't really participate — and everyone knows it.",
   },
   {
     icon: "📱",
-    title: "Duolingo didn't cut it",
-    body: "You started. You quit within 2 weeks. The lessons felt robotic, culturally hollow, and disconnected from who you are.",
+    title: "Apps don't understand your story",
+    body: "You downloaded three. You quit within two weeks. The lessons were robotic, culturally empty, and built for travelers — not for someone trying to come home.",
   },
   {
     icon: "⏳",
     title: "The clock is ticking",
-    body: "Your grandparents won't be here forever. Your kids are growing up without the language. The urgency is real.",
+    body: "Grandparents won't be here forever. Your kids are growing up without the language. The chain is breaking — and you feel it.",
   },
 ];
 
 const EPISODES = [
   {
+    lang: "Yoruba",
     ep: "S1 · E1",
     title: "The Sound System",
-    sub: "Master Yoruba's 3 tones through the talking drum. By the end: you can hear the difference — and produce it.",
+    sub: "Master Yoruba's 3 tones through the talking drum. By the end you can hear the difference — and produce it.",
     tags: ["Phonetics", "Tones", "Pronunciation"],
   },
   {
-    ep: "S1 · E3",
-    title: "The Market Hustle",
-    sub: "Navigate Balogun Market with a character who bargains, jokes, and haggles. Numbers, food vocab, polite phrases — absorbed through story.",
-    tags: ["Numbers", "Transactions", "Everyday language"],
+    lang: "Swahili",
+    ep: "S1 · E1",
+    title: "Jambo, Nairobi",
+    sub: "Follow Amina through a morning commute in Westlands — greetings, small talk, and the social rules that make Swahili speakers feel at home anywhere.",
+    tags: ["Greetings", "Everyday speech", "Culture"],
   },
   {
-    ep: "S1 · E6",
-    title: "Family & Respect",
-    sub: "Learn kinship terms and greeting etiquette through an extended family gathering — including why you kneel, and when.",
-    tags: ["Family", "Greetings", "Cultural etiquette"],
+    lang: "Twi",
+    ep: "S1 · E2",
+    title: "Akwaaba",
+    sub: "A homecoming to Kumasi. Learn the language of welcome and hospitality — what to say when you arrive, how to greet elders, and what happens when you get it right.",
+    tags: ["Welcome", "Etiquette", "Family"],
   },
 ];
 
@@ -78,16 +95,16 @@ const DIFFERENTIATORS = [
     body: "1080p+ video, professional lighting, original score. Content that makes you lean forward — not click away.",
   },
   {
-    label: "Built for heritage learners",
-    body: "Every lesson acknowledges your emotional relationship to the language. This isn't ESL. It's homecoming.",
+    label: "Built for heritage reconnectors",
+    body: "Every lesson acknowledges the emotional weight of returning to your language. This isn't a travel app. It's a homecoming.",
   },
   {
     label: "Measurable outcomes",
-    body: "CEFR A1–B2 progression. You'll know exactly where you stand and what you can do at every stage.",
+    body: "CEFR A1–B2 progression across all languages. You'll know exactly where you stand and what you can say at every stage.",
   },
   {
     label: "Culture-first, language-second",
-    body: "Language is the byproduct of culture. Learn Yoruba proverbs, ceremonies, food, music — and the words follow.",
+    body: "Language is the byproduct of culture. Learn proverbs, ceremonies, food, music — and the words follow naturally.",
   },
 ];
 
@@ -97,6 +114,7 @@ export default function Home() {
   const [form, setForm] = useState({
     firstName: "",
     email: "",
+    language: "",
     persona: "",
     level: "",
     budget: "",
@@ -107,7 +125,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!form.firstName || !form.email || !form.persona || !form.level || !form.budget) {
+    if (!form.firstName || !form.email || !form.language || !form.persona || !form.level || !form.budget) {
       setError("Please fill in all required fields.");
       return;
     }
@@ -127,6 +145,8 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  const selectedLang = LANGUAGES.find((l) => l.value === form.language);
 
   return (
     <main className="min-h-screen glow-bg">
@@ -181,15 +201,14 @@ export default function Home() {
             Now accepting waitlist applications
           </div>
 
-          <h1
-            className="font-display text-5xl md:text-7xl font-bold leading-[1.08] mb-6 tracking-tight text-cream"
-          >
+          <h1 className="font-display text-5xl md:text-7xl font-bold leading-[1.08] mb-6 tracking-tight text-cream">
             Speak Yoruba.<br />
+            Speak Swahili.<br />
             <span className="gold-shimmer">Own your roots.</span>
           </h1>
 
           <p className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10 text-muted">
-            A cinematic learning platform that teaches Yoruba through culture — not drills.
+            A cinematic platform that teaches African heritage languages through culture — not drills.
             Built for the diaspora who are tired of apps that don&apos;t understand{" "}
             <em style={{ color: "var(--cream)" }}>who they really are</em>.
           </p>
@@ -210,8 +229,35 @@ export default function Home() {
             </a>
           </div>
 
+          {/* Language pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+            {["Yoruba", "Swahili", "Twi", "Igbo", "Amharic", "Hausa", "Zulu", "Wolof"].map((lang) => (
+              <span
+                key={lang}
+                className="text-xs px-3 py-1 rounded-full"
+                style={{
+                  border: "1px solid var(--border)",
+                  color: "var(--muted)",
+                  background: "rgba(255,255,255,0.02)",
+                }}
+              >
+                {lang}
+              </span>
+            ))}
+            <span
+              className="text-xs px-3 py-1 rounded-full"
+              style={{
+                border: "1px solid rgba(200,147,42,0.3)",
+                color: "var(--gold)",
+                background: "rgba(200,147,42,0.06)",
+              }}
+            >
+              + more
+            </span>
+          </div>
+
           <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-muted">
-            {["Houston, TX", "London, UK", "Atlanta, GA", "Lagos, NG", "New York, NY"].map((city) => (
+            {["Houston, TX", "London, UK", "Toronto, Canada", "Nairobi, Kenya", "New York, NY"].map((city) => (
               <span key={city} className="flex items-center gap-1.5">
                 <span
                   className="w-1 h-1 rounded-full"
@@ -252,23 +298,25 @@ export default function Home() {
               Language through living
             </h2>
             <p className="text-base max-w-xl mx-auto text-muted">
-              We don&apos;t teach vocabulary lists. We follow characters through real Yoruba
-              life — markets, ceremonies, drumming, Lagos traffic — and the language comes
-              with it.
+              We don&apos;t teach vocabulary lists. We follow characters through real African life —
+              markets, ceremonies, morning commutes, family compounds — and the language comes with it.
             </p>
           </div>
 
           <div className="space-y-4">
             {EPISODES.map((ep) => (
-              <div key={ep.ep} className="card card-hover flex gap-5 p-5 cursor-pointer group">
+              <div key={ep.lang + ep.ep} className="card card-hover flex gap-5 p-5 cursor-pointer group">
                 <div
-                  className="shrink-0 w-14 h-14 rounded-xl flex flex-col items-center justify-center text-center"
+                  className="shrink-0 w-16 h-14 rounded-xl flex flex-col items-center justify-center text-center px-1"
                   style={{
                     background: "rgba(200,147,42,0.12)",
                     border: "1px solid rgba(200,147,42,0.2)",
                   }}
                 >
-                  <span className="text-[9px] font-medium leading-tight text-gold">
+                  <span className="text-[8px] font-semibold text-gold leading-none mb-0.5">
+                    {ep.lang}
+                  </span>
+                  <span className="text-[9px] font-medium leading-tight text-gold opacity-70">
                     {ep.ep}
                   </span>
                 </div>
@@ -305,11 +353,7 @@ export default function Home() {
             {DIFFERENTIATORS.map((item) => (
               <div key={item.label} className="card p-6">
                 <div className="flex items-start gap-3">
-                  <CheckCircle
-                    size={18}
-                    className="shrink-0 mt-0.5"
-                    style={{ color: "var(--gold)" }}
-                  />
+                  <CheckCircle size={18} className="shrink-0 mt-0.5" style={{ color: "var(--gold)" }} />
                   <div>
                     <p className="font-semibold mb-1.5 text-sm text-cream">{item.label}</p>
                     <p className="text-sm leading-relaxed text-muted">{item.body}</p>
@@ -329,14 +373,14 @@ export default function Home() {
             {step === "success" ? (
               <div className="text-center py-8">
                 <div className="text-5xl mb-6">🎉</div>
-                <h3
-                  className="font-display text-2xl font-bold mb-3 text-cream"
-                >
+                <h3 className="font-display text-2xl font-bold mb-3 text-cream">
                   You&apos;re on the list
                 </h3>
                 <p className="text-sm leading-relaxed text-muted">
-                  We&apos;ll reach out with early access and exclusive founding member pricing.
-                  Share this page to help us grow the community.
+                  {selectedLang
+                    ? `We'll reach out when ${selectedLang.label} launches — with early access and founding member pricing.`
+                    : "We'll reach out with early access and exclusive founding member pricing."}
+                  {" "}Share this page to help us grow the community.
                 </p>
               </div>
             ) : (
@@ -350,7 +394,7 @@ export default function Home() {
                   </h2>
                   <p className="text-sm text-muted">
                     Founding members get early access, discounted pricing, and direct input on
-                    content. Takes 60 seconds.
+                    which languages launch first. Takes 90 seconds.
                   </p>
                 </div>
 
@@ -386,6 +430,37 @@ export default function Home() {
                     </div>
                   </div>
 
+                  {/* Language */}
+                  <div>
+                    <label className="block text-xs font-medium mb-2 text-cream">
+                      Which language do you most want to learn? <span className="text-gold">*</span>
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={form.language}
+                        onChange={(e) => setForm({ ...form, language: e.target.value })}
+                        required
+                        className="field"
+                        style={{
+                          borderColor: form.language ? "var(--gold)" : undefined,
+                          color: form.language ? "var(--cream)" : "var(--muted)",
+                        }}
+                      >
+                        <option value="" disabled>Select a language…</option>
+                        {LANGUAGES.map((l) => (
+                          <option key={l.value} value={l.value}>
+                            {l.label}{l.region ? ` — ${l.region}` : ""}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown
+                        size={14}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"
+                        style={{ color: "var(--muted)" }}
+                      />
+                    </div>
+                  </div>
+
                   {/* Persona */}
                   <div>
                     <label className="block text-xs font-medium mb-2 text-cream">
@@ -406,16 +481,12 @@ export default function Home() {
                             style={{ display: "none" }}
                           />
                           <div className="radio-dot">
-                            {form.persona === p.value && (
-                              <div className="radio-dot-inner" />
-                            )}
+                            {form.persona === p.value && <div className="radio-dot-inner" />}
                           </div>
                           <span
                             className="text-xs leading-snug"
                             style={{
-                              color: form.persona === p.value
-                                ? "var(--cream)"
-                                : "var(--muted)",
+                              color: form.persona === p.value ? "var(--cream)" : "var(--muted)",
                             }}
                           >
                             {p.label}
@@ -428,7 +499,8 @@ export default function Home() {
                   {/* Level */}
                   <div>
                     <label className="block text-xs font-medium mb-2 text-cream">
-                      Your current Yoruba level? <span className="text-gold">*</span>
+                      Your current level{form.language && selectedLang?.label !== "Other African language" ? ` in ${selectedLang?.label}` : ""}?{" "}
+                      <span className="text-gold">*</span>
                     </label>
                     <div className="relative">
                       <select
@@ -489,9 +561,7 @@ export default function Home() {
                         value={form.painPoint}
                         onChange={(e) => setForm({ ...form, painPoint: e.target.value })}
                         className="field"
-                        style={{
-                          color: form.painPoint ? "var(--cream)" : "var(--muted)",
-                        }}
+                        style={{ color: form.painPoint ? "var(--cream)" : "var(--muted)" }}
                       >
                         <option value="">Select one…</option>
                         {PAIN_POINTS.map((p) => (
@@ -528,7 +598,7 @@ export default function Home() {
                   </button>
 
                   <p className="text-center text-xs text-muted">
-                    No spam. No credit card. We&apos;ll reach out when we launch.
+                    No spam. No credit card. Your answers shape which languages we build first.
                   </p>
                 </form>
               </>
@@ -548,7 +618,7 @@ export default function Home() {
               À
             </div>
             <span className="text-xs font-medium text-muted">
-              [Platform Name] — Yoruba Heritage Learning
+              [Platform Name] — African Heritage Language Learning
             </span>
           </div>
           <p className="text-xs text-muted">
