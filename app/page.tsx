@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckCircle, ChevronDown } from "lucide-react";
 
+const CYCLE_LANGUAGES = [
+  "Yoruba", "Swahili", "Twi", "Igbo", "Amharic", "Hausa", "Zulu", "Wolof",
+];
+
 const LANGUAGES = [
-  { value: "yoruba",   label: "Yoruba",      region: "Nigeria · Benin · Togo" },
-  { value: "swahili",  label: "Swahili",     region: "Kenya · Tanzania · Uganda" },
-  { value: "twi",      label: "Twi / Akan",  region: "Ghana · Ivory Coast" },
-  { value: "igbo",     label: "Igbo",        region: "Nigeria" },
-  { value: "amharic",  label: "Amharic",     region: "Ethiopia · Eritrea" },
-  { value: "hausa",    label: "Hausa",       region: "Nigeria · Niger · Ghana" },
-  { value: "zulu",     label: "Zulu / Xhosa",region: "South Africa" },
-  { value: "wolof",    label: "Wolof",       region: "Senegal · Gambia" },
-  { value: "somali",   label: "Somali",      region: "Somalia · Ethiopia · Kenya" },
+  { value: "yoruba",   label: "Yoruba",             region: "Nigeria, Benin, Togo" },
+  { value: "swahili",  label: "Swahili",            region: "Kenya, Tanzania, Uganda" },
+  { value: "twi",      label: "Twi / Akan",         region: "Ghana, Ivory Coast" },
+  { value: "igbo",     label: "Igbo",               region: "Nigeria" },
+  { value: "amharic",  label: "Amharic",            region: "Ethiopia, Eritrea" },
+  { value: "hausa",    label: "Hausa",              region: "Nigeria, Niger, Ghana" },
+  { value: "zulu",     label: "Zulu / Xhosa",       region: "South Africa" },
+  { value: "wolof",    label: "Wolof",              region: "Senegal, Gambia" },
+  { value: "somali",   label: "Somali",             region: "Somalia, Ethiopia, Kenya" },
   { value: "other",    label: "Other African language", region: "" },
 ];
 
@@ -24,7 +28,7 @@ const PERSONAS = [
 ];
 
 const LEVELS = [
-  { value: "none",           label: "Complete beginner — I know nothing" },
+  { value: "none",           label: "Complete beginner, nothing yet" },
   { value: "passive",        label: "I understand some but can't speak" },
   { value: "basic",          label: "I can say a few words/phrases" },
   { value: "conversational", label: "Conversational but want to improve" },
@@ -49,19 +53,19 @@ const PAIN_POINTS = [
 
 const PAIN_CARDS = [
   {
-    icon: "😶",
+    num: "01",
     title: "Silent at family gatherings",
-    body: "You understand fragments of what's said. You laugh when others laugh. You nod. But you can't really participate — and everyone knows it.",
+    body: "You understand fragments of what's said. You laugh when others laugh. You nod. But you can't really participate. And everyone knows it.",
   },
   {
-    icon: "📱",
+    num: "02",
     title: "Apps don't understand your story",
-    body: "You downloaded three. You quit within two weeks. The lessons were robotic, culturally empty, and built for travelers — not for someone trying to come home.",
+    body: "You downloaded three. You quit within two weeks. The lessons were robotic, culturally empty, built for travelers. Not for someone trying to come home.",
   },
   {
-    icon: "⏳",
+    num: "03",
     title: "The clock is ticking",
-    body: "Grandparents won't be here forever. Your kids are growing up without the language. The chain is breaking — and you feel it.",
+    body: "Grandparents won't be here forever. Your kids are growing up without the language. The chain is breaking. And you feel it.",
   },
 ];
 
@@ -70,21 +74,21 @@ const EPISODES = [
     lang: "Yoruba",
     ep: "S1 · E1",
     title: "The Sound System",
-    sub: "Master Yoruba's 3 tones through the talking drum. By the end you can hear the difference — and produce it.",
+    sub: "Master Yoruba's 3 tones through the talking drum. By the end you can hear the difference and produce it.",
     tags: ["Phonetics", "Tones", "Pronunciation"],
   },
   {
     lang: "Swahili",
     ep: "S1 · E1",
     title: "Jambo, Nairobi",
-    sub: "Follow Amina through a morning commute in Westlands — greetings, small talk, and the social rules that make Swahili speakers feel at home anywhere.",
+    sub: "Follow Amina through a morning commute in Westlands: greetings, small talk, and the social rules that make Swahili speakers feel at home anywhere.",
     tags: ["Greetings", "Everyday speech", "Culture"],
   },
   {
     lang: "Twi",
     ep: "S1 · E2",
     title: "Akwaaba",
-    sub: "A homecoming to Kumasi. Learn the language of welcome and hospitality — what to say when you arrive, how to greet elders, and what happens when you get it right.",
+    sub: "A homecoming to Kumasi. Learn the language of welcome and hospitality: what to say when you arrive, how to greet elders, and what happens when you get it right.",
     tags: ["Welcome", "Etiquette", "Family"],
   },
 ];
@@ -92,7 +96,7 @@ const EPISODES = [
 const DIFFERENTIATORS = [
   {
     label: "Cinematic production",
-    body: "1080p+ video, professional lighting, original score. Content that makes you lean forward — not click away.",
+    body: "1080p+ video, professional lighting, original score. Content that makes you lean forward, not click away.",
   },
   {
     label: "Built for heritage reconnectors",
@@ -104,7 +108,7 @@ const DIFFERENTIATORS = [
   },
   {
     label: "Culture-first, language-second",
-    body: "Language is the byproduct of culture. Learn proverbs, ceremonies, food, music — and the words follow naturally.",
+    body: "Language is the byproduct of culture. Learn proverbs, ceremonies, food, music, and the words follow naturally.",
   },
 ];
 
@@ -121,6 +125,21 @@ export default function Home() {
     painPoint: "",
   });
   const [error, setError] = useState("");
+
+  // Cycling language animation
+  const [langIndex, setLangIndex] = useState(0);
+  const [langVisible, setLangVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLangVisible(false);
+      setTimeout(() => {
+        setLangIndex((i) => (i + 1) % CYCLE_LANGUAGES.length);
+        setLangVisible(true);
+      }, 350);
+    }, 2600);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -202,13 +221,25 @@ export default function Home() {
           </div>
 
           <h1 className="font-display text-5xl md:text-7xl font-bold leading-[1.08] mb-6 tracking-tight text-cream">
-            Speak Yoruba.<br />
-            Speak Swahili.<br />
+            Speak{" "}
+            <span
+              style={{
+                display: "inline-block",
+                color: "var(--gold)",
+                opacity: langVisible ? 1 : 0,
+                transform: langVisible ? "translateY(0px)" : "translateY(-10px)",
+                transition: "opacity 0.35s ease, transform 0.35s ease",
+                minWidth: "4ch",
+              }}
+            >
+              {CYCLE_LANGUAGES[langIndex]}
+            </span>
+            .<br />
             <span className="gold-shimmer">Own your roots.</span>
           </h1>
 
           <p className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10 text-muted">
-            A cinematic platform that teaches African heritage languages through culture — not drills.
+            A cinematic platform that teaches African heritage languages through culture, not drills.
             Built for the diaspora who are tired of apps that don&apos;t understand{" "}
             <em style={{ color: "var(--cream)" }}>who they really are</em>.
           </p>
@@ -219,7 +250,7 @@ export default function Home() {
               className="btn-gold px-8 py-4 rounded-full text-sm font-semibold"
               style={{ display: "inline-block" }}
             >
-              Reserve your spot →
+              Reserve your spot
             </a>
             <a
               href="#how-it-works"
@@ -231,14 +262,20 @@ export default function Home() {
 
           {/* Language pills */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
-            {["Yoruba", "Swahili", "Twi", "Igbo", "Amharic", "Hausa", "Zulu", "Wolof"].map((lang) => (
+            {CYCLE_LANGUAGES.map((lang) => (
               <span
                 key={lang}
                 className="text-xs px-3 py-1 rounded-full"
                 style={{
                   border: "1px solid var(--border)",
-                  color: "var(--muted)",
-                  background: "rgba(255,255,255,0.02)",
+                  color: lang === CYCLE_LANGUAGES[langIndex] ? "var(--gold)" : "var(--muted)",
+                  background: lang === CYCLE_LANGUAGES[langIndex]
+                    ? "rgba(200,147,42,0.08)"
+                    : "rgba(255,255,255,0.02)",
+                  borderColor: lang === CYCLE_LANGUAGES[langIndex]
+                    ? "rgba(200,147,42,0.3)"
+                    : undefined,
+                  transition: "color 0.35s ease, background 0.35s ease, border-color 0.35s ease",
                 }}
               >
                 {lang}
@@ -276,7 +313,12 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-6">
             {PAIN_CARDS.map((card) => (
               <div key={card.title} className="card card-hover p-6">
-                <div className="text-3xl mb-4">{card.icon}</div>
+                <p
+                  className="text-xs font-semibold mb-4 tracking-widest"
+                  style={{ color: "var(--gold)", opacity: 0.6 }}
+                >
+                  {card.num}
+                </p>
                 <h3 className="font-display font-semibold mb-2 text-base text-cream">
                   {card.title}
                 </h3>
@@ -298,8 +340,8 @@ export default function Home() {
               Language through living
             </h2>
             <p className="text-base max-w-xl mx-auto text-muted">
-              We don&apos;t teach vocabulary lists. We follow characters through real African life —
-              markets, ceremonies, morning commutes, family compounds — and the language comes with it.
+              We don&apos;t teach vocabulary lists. We follow characters through real African life:
+              markets, ceremonies, morning commutes, family compounds. The language comes with it.
             </p>
           </div>
 
@@ -372,13 +414,18 @@ export default function Home() {
 
             {step === "success" ? (
               <div className="text-center py-8">
-                <div className="text-5xl mb-6">🎉</div>
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-6"
+                  style={{ background: "rgba(200,147,42,0.15)", border: "1px solid rgba(200,147,42,0.3)" }}
+                >
+                  <CheckCircle size={28} style={{ color: "var(--gold)" }} />
+                </div>
                 <h3 className="font-display text-2xl font-bold mb-3 text-cream">
                   You&apos;re on the list
                 </h3>
                 <p className="text-sm leading-relaxed text-muted">
                   {selectedLang
-                    ? `We'll reach out when ${selectedLang.label} launches — with early access and founding member pricing.`
+                    ? `We'll reach out when ${selectedLang.label} launches, with early access and founding member pricing.`
                     : "We'll reach out with early access and exclusive founding member pricing."}
                   {" "}Share this page to help us grow the community.
                 </p>
@@ -449,7 +496,7 @@ export default function Home() {
                         <option value="" disabled>Select a language…</option>
                         {LANGUAGES.map((l) => (
                           <option key={l.value} value={l.value}>
-                            {l.label}{l.region ? ` — ${l.region}` : ""}
+                            {l.label}{l.region ? ` (${l.region})` : ""}
                           </option>
                         ))}
                       </select>
@@ -594,7 +641,7 @@ export default function Home() {
                     disabled={loading}
                     className="btn-gold w-full py-4 rounded-xl text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    {loading ? "Joining…" : "Reserve my spot →"}
+                    {loading ? "Joining…" : "Reserve my spot"}
                   </button>
 
                   <p className="text-center text-xs text-muted">
@@ -618,11 +665,11 @@ export default function Home() {
               À
             </div>
             <span className="text-xs font-medium text-muted">
-              [Platform Name] — African Heritage Language Learning
+              [Platform Name] · African Heritage Language Learning
             </span>
           </div>
           <p className="text-xs text-muted">
-            Built with love for the diaspora · © {new Date().getFullYear()}
+            Built with love for the diaspora · {new Date().getFullYear()}
           </p>
         </div>
       </footer>
