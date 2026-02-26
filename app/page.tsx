@@ -38,9 +38,9 @@ const LEVELS = [
 
 const BUDGETS = [
   { value: "free",  label: "I'd want it free" },
-  { value: "10-20", label: "$10 – $20/mo" },
-  { value: "21-35", label: "$21 – $35/mo" },
-  { value: "36-50", label: "$36 – $50/mo" },
+  { value: "10-20", label: "$10 to $20/mo" },
+  { value: "21-35", label: "$21 to $35/mo" },
+  { value: "36-50", label: "$36 to $50/mo" },
   { value: "50+",   label: "Over $50/mo" },
 ];
 
@@ -432,7 +432,7 @@ export default function Home() {
               {
                 num: "01",
                 title: "Choose your domain",
-                body: "Pick from Language, Cooking, Folktales, Marriage, Music, and more — 8 cultural domains, all rooted in the African diaspora experience.",
+                body: "Pick from Language, Cooking, Folktales, Marriage, Music, and more. 8 cultural domains, all rooted in the African diaspora experience.",
               },
               {
                 num: "02",
@@ -526,7 +526,7 @@ export default function Home() {
                 "CEFR-structured progression (A1 to B2)",
                 "Cultural context in every lesson",
                 "Built by and for the African diaspora",
-                "Curated creator marketplace — learn from real cultural practitioners, not algorithms",
+                "Curated creator marketplace: learn from real cultural practitioners, not algorithms",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3">
                   <CheckCircle
@@ -830,7 +830,7 @@ export default function Home() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       {[
                         { value: "yes", label: "Yes, I'd love to create" },
-                        { value: "maybe", label: "Maybe — tell me more" },
+                        { value: "maybe", label: "Maybe, tell me more" },
                         { value: "no", label: "Just here to learn" },
                       ].map((opt) => (
                         <label

@@ -1,8 +1,8 @@
 "use client";
 
-// Platform UI Mockup — Asa: African Heritage Creator Marketplace
+// Platform UI Mockup: Asa African Heritage Creator Marketplace
 // 5 screens navigable via top tabs
-// Accessible at /mockup — share this link as a design reference
+// Accessible at /mockup, share this link as a design reference
 
 import { useState } from "react";
 
@@ -43,14 +43,14 @@ const VOCAB = [
 ];
 
 const DOMAINS = [
-  { icon: "💬", name: "Language Learning",      tag: "Speak your roots",          creators: 12, courses: 34 },
-  { icon: "💍", name: "Marriage & Relationships", tag: "Traditions that bind",      creators: 6,  courses: 18 },
-  { icon: "🍲", name: "Cooking & Cuisine",        tag: "Taste the culture",         creators: 9,  courses: 27 },
-  { icon: "📖", name: "Folktales & Storytelling", tag: "Stories that last",         creators: 7,  courses: 21 },
-  { icon: "🎉", name: "Festivals & Celebrations", tag: "Live the calendar",         creators: 5,  courses: 14 },
-  { icon: "🥁", name: "Music & Dance",            tag: "Move with meaning",         creators: 8,  courses: 23 },
-  { icon: "🏛",  name: "History & Heritage",       tag: "Know where you come from",  creators: 11, courses: 29 },
-  { icon: "👘", name: "Fashion & Textiles",        tag: "Wear your story",           creators: 4,  courses: 12 },
+  { icon: "LG", name: "Language Learning",      tag: "Speak your roots",          creators: 12, courses: 34 },
+  { icon: "MR", name: "Marriage & Relationships", tag: "Traditions that bind",      creators: 6,  courses: 18 },
+  { icon: "CK", name: "Cooking & Cuisine",        tag: "Taste the culture",         creators: 9,  courses: 27 },
+  { icon: "FT", name: "Folktales & Storytelling", tag: "Stories that last",         creators: 7,  courses: 21 },
+  { icon: "FV", name: "Festivals & Celebrations", tag: "Live the calendar",         creators: 5,  courses: 14 },
+  { icon: "MD", name: "Music & Dance",            tag: "Move with meaning",         creators: 8,  courses: 23 },
+  { icon: "HH", name: "History & Heritage",       tag: "Know where you come from",  creators: 11, courses: 29 },
+  { icon: "FA", name: "Fashion & Textiles",        tag: "Wear your story",           creators: 4,  courses: 12 },
 ];
 
 const CREATORS = [
@@ -63,7 +63,7 @@ const CREATORS = [
 const CREATOR_COURSES = [
   { title: "The Foundations of Yoruba",   level: "A1",    episodes: 8, duration: "1h 52m", rating: 4.9, reviews: 198, description: "Start from zero. Learn tones, greetings, and the sound system of Yoruba through cinematic storytelling." },
   { title: "Yoruba in Daily Life",         level: "A2",    episodes: 6, duration: "1h 24m", rating: 4.8, reviews: 87,  description: "Market conversations, family vocabulary, and navigating everyday Nigerian life in Yoruba." },
-  { title: "The Culture Behind the Language", level: "A1-A2", episodes: 5, duration: "58m",   rating: 4.9, reviews: 27,  description: "Egungun, Ifa, Oriki — understanding the spiritual and cultural roots that give Yoruba its depth." },
+  { title: "The Culture Behind the Language", level: "A1-A2", episodes: 5, duration: "58m",   rating: 4.9, reviews: 27,  description: "Egungun, Ifa, Oriki: understanding the spiritual and cultural roots that give Yoruba its depth." },
 ];
 
 const REVIEWS = [
@@ -339,7 +339,7 @@ function HomeScreen({ setScreen }: { setScreen: (n: number) => void }) {
             Yoruba Language &amp; Culture &middot; 4.9&#9733; &middot; 2,340 learners
           </p>
           <p style={{ color: C.cream, fontSize: 14, marginBottom: 24, fontFamily: C.fontBody, opacity: 0.85 }}>
-            The Foundations of Yoruba — Season 1 now complete
+            The Foundations of Yoruba, Season 1 now complete
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             <MagentaBtn onClick={() => setScreen(2)} style={{ padding: "10px 22px", borderRadius: 10 }}>
@@ -979,7 +979,7 @@ function CreatorProfileScreen({ setScreen }: { setScreen: (n: number) => void })
                       <p style={{ color: C.cream, fontSize: 13, fontWeight: 600, fontFamily: C.fontBody }}>
                         {review.name}
                       </p>
-                      <p style={{ color: C.gold, fontSize: 12 }}>{"★".repeat(review.rating)}</p>
+                      <p style={{ color: C.gold, fontSize: 12 }}>{review.rating.toFixed(1)}</p>
                     </div>
                   </div>
                   <p style={{ color: C.muted, fontSize: 13, fontFamily: C.fontBody, lineHeight: 1.55, marginBottom: 12 }}>
@@ -1063,7 +1063,7 @@ function CreatorProfileScreen({ setScreen }: { setScreen: (n: number) => void })
                     <p style={{ color: C.cream, fontSize: 13, fontWeight: 600, fontFamily: C.fontBody }}>
                       {review.name}
                     </p>
-                    <p style={{ color: C.gold, fontSize: 12 }}>{"★".repeat(review.rating)}</p>
+                    <p style={{ color: C.gold, fontSize: 12 }}>{review.rating.toFixed(1)}</p>
                   </div>
                 </div>
                 <p style={{ color: C.muted, fontSize: 13, fontFamily: C.fontBody, lineHeight: 1.55, marginBottom: 12 }}>
