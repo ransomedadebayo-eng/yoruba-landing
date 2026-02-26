@@ -37,12 +37,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Asa",
+    images: [
+      {
+        url: "https://yoruba-landing.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Asa — African Heritage Language Learning",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Asa | African Heritage Language Learning",
     description:
       "You're not learning a language. You're coming home. Yoruba, Swahili, Twi, Igbo and more — built for the diaspora.",
+    images: ["https://yoruba-landing.vercel.app/og-image.png"],
   },
   robots: {
     index: true,

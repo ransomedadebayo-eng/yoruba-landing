@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { firstName, email, language, persona, level, budget, painPoint } = body;
+    const { firstName, email, language, persona, level, budget, painPoint, creatorInterest } = body;
 
     // Basic validation
     if (!firstName || !email || !language || !persona || !level || !budget) {
@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
           level,
           budget,
           pain_point: painPoint || null,
+          creator_interest: creatorInterest || null,
           created_at: new Date().toISOString(),
         },
       ]);
@@ -57,6 +58,7 @@ export async function POST(req: NextRequest) {
         level,
         budget,
         painPoint,
+        creatorInterest,
       });
     }
 

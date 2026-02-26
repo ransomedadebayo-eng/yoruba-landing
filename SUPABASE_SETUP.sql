@@ -9,12 +9,14 @@ CREATE TABLE IF NOT EXISTS waitlist (
   persona     TEXT NOT NULL,
   level       TEXT NOT NULL,
   budget      TEXT NOT NULL,
-  pain_point  TEXT,
-  created_at  TIMESTAMPTZ DEFAULT NOW()
+  pain_point       TEXT,
+  creator_interest TEXT,   -- 'yes' | 'maybe' | 'no' | null
+  created_at       TIMESTAMPTZ DEFAULT NOW()
 );
 
--- If the table already exists, add the language column with:
+-- If the table already exists, run these migrations:
 -- ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS language TEXT NOT NULL DEFAULT 'unspecified';
+-- ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS creator_interest TEXT;
 
 -- Index for fast email lookups
 CREATE INDEX IF NOT EXISTS waitlist_email_idx ON waitlist (email);

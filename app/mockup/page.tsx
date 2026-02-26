@@ -345,7 +345,7 @@ function HomeScreen({ setScreen }: { setScreen: (n: number) => void }) {
             <MagentaBtn onClick={() => setScreen(2)} style={{ padding: "10px 22px", borderRadius: 10 }}>
               View Creator
             </MagentaBtn>
-            <OutlineBtn style={{ padding: "10px 22px", borderRadius: 10 }}>
+            <OutlineBtn onClick={() => setScreen(1)} style={{ padding: "10px 22px", borderRadius: 10 }}>
               See All Creators
             </OutlineBtn>
           </div>
@@ -373,11 +373,10 @@ function HomeScreen({ setScreen }: { setScreen: (n: number) => void }) {
             }}
           >
             {DOMAINS.map((domain) => {
-              const isLanguage = domain.name === "Language Learning";
               return (
                 <div
                   key={domain.name}
-                  onClick={() => { if (isLanguage) setScreen(1); }}
+                  onClick={() => setScreen(1)}
                   style={{
                     background: C.surface,
                     border: `1px solid ${C.border}`,
@@ -436,6 +435,7 @@ function HomeScreen({ setScreen }: { setScreen: (n: number) => void }) {
             {CREATORS.slice(0, 3).map((creator) => (
               <div
                 key={creator.name}
+                onClick={() => setScreen(2)}
                 style={{
                   flexShrink: 0,
                   width: 220,
