@@ -176,6 +176,7 @@ export default function Home() {
     level: "",
     budget: "",
     painPoint: "",
+    creatorInterest: "",
   });
   const [error, setError] = useState("");
 
@@ -206,7 +207,7 @@ export default function Home() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, creatorInterest: form.creatorInterest }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
@@ -410,7 +411,7 @@ export default function Home() {
           <div className="text-center mb-16">
             <SectionLabel>How it works</SectionLabel>
             <h2 className="font-display text-3xl md:text-5xl font-bold text-cream">
-              Three steps to fluency
+              Three steps to your culture
             </h2>
           </div>
 
@@ -430,18 +431,18 @@ export default function Home() {
             {[
               {
                 num: "01",
-                title: "Choose your heritage language",
-                body: "Yoruba, Swahili, Twi, Igbo and more",
+                title: "Choose your domain",
+                body: "Pick from Language, Cooking, Folktales, Marriage, Music, and more — 8 cultural domains, all rooted in the African diaspora experience.",
               },
               {
                 num: "02",
-                title: "Watch cinematic episodes",
-                body: "Mapped to CEFR A1 through B2 progression",
+                title: "Discover creators",
+                body: "Browse vetted creators who share your heritage. Read reviews, explore their profiles, and choose who you learn from.",
               },
               {
                 num: "03",
-                title: "Practice and connect",
-                body: "Interactive tools and a community of diaspora learners",
+                title: "Learn with intention",
+                body: "Cinematic courses with ratings, vocabulary tools, CEFR progression, and a community of learners coming home together.",
               },
             ].map((step, i) => (
               <div
@@ -525,6 +526,7 @@ export default function Home() {
                 "CEFR-structured progression (A1 to B2)",
                 "Cultural context in every lesson",
                 "Built by and for the African diaspora",
+                "Curated creator marketplace — learn from real cultural practitioners, not algorithms",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3">
                   <CheckCircle
@@ -817,6 +819,35 @@ export default function Home() {
                         className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"
                         style={{ color: "var(--muted)" }}
                       />
+                    </div>
+                  </div>
+
+                  {/* Creator Interest (optional) */}
+                  <div>
+                    <label className="block text-xs font-medium mb-2 text-muted">
+                      Interested in creating content on Asa? (optional)
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {[
+                        { value: "yes", label: "Yes, I'd love to create" },
+                        { value: "maybe", label: "Maybe — tell me more" },
+                        { value: "no", label: "Just here to learn" },
+                      ].map((opt) => (
+                        <label
+                          key={opt.value}
+                          className={`chip${form.creatorInterest === opt.value ? " selected" : ""}`}
+                        >
+                          <input
+                            type="radio"
+                            name="creatorInterest"
+                            value={opt.value}
+                            checked={form.creatorInterest === opt.value}
+                            onChange={(e) => setForm({ ...form, creatorInterest: e.target.value })}
+                            style={{ display: "none" }}
+                          />
+                          {opt.label}
+                        </label>
+                      ))}
                     </div>
                   </div>
 

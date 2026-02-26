@@ -1,6 +1,6 @@
 "use client";
 
-// Platform UI Mockup — Asa: African Heritage Language Learning
+// Platform UI Mockup — Asa: African Heritage Creator Marketplace
 // 5 screens navigable via top tabs
 // Accessible at /mockup — share this link as a design reference
 
@@ -41,6 +41,37 @@ const VOCAB = [
   { yoruba: "Ẹ ṣéun",    english: "Thank you",       tone: "↗ ↘ ↗" },
   { yoruba: "O dàbọ̀",   english: "Goodbye",          tone: "↗ ↘ ↘" },
 ];
+
+const DOMAINS = [
+  { icon: "💬", name: "Language Learning",      tag: "Speak your roots",          creators: 12, courses: 34 },
+  { icon: "💍", name: "Marriage & Relationships", tag: "Traditions that bind",      creators: 6,  courses: 18 },
+  { icon: "🍲", name: "Cooking & Cuisine",        tag: "Taste the culture",         creators: 9,  courses: 27 },
+  { icon: "📖", name: "Folktales & Storytelling", tag: "Stories that last",         creators: 7,  courses: 21 },
+  { icon: "🎉", name: "Festivals & Celebrations", tag: "Live the calendar",         creators: 5,  courses: 14 },
+  { icon: "🥁", name: "Music & Dance",            tag: "Move with meaning",         creators: 8,  courses: 23 },
+  { icon: "🏛",  name: "History & Heritage",       tag: "Know where you come from",  creators: 11, courses: 29 },
+  { icon: "👘", name: "Fashion & Textiles",        tag: "Wear your story",           creators: 4,  courses: 12 },
+];
+
+const CREATORS = [
+  { initials: "AO", name: "Adunola Okafor", rating: 4.9, reviews: 312, languages: ["Yoruba"],        bio: "Cultural educator and linguist from Ibadan. 15 years teaching Yoruba to diaspora communities in London and Houston.", courses: 3, featured: true  },
+  { initials: "KA", name: "Kofi Asante",    rating: 4.7, reviews: 187, languages: ["Twi", "Ga"],     bio: "Ghanaian storyteller and language instructor. Teaches Twi through proverbs, songs, and traditional narratives.",      courses: 2, featured: false },
+  { initials: "FM", name: "Fatuma Mbeki",   rating: 4.8, reviews: 241, languages: ["Swahili"],       bio: "Based in Nairobi and New York. Specializes in conversational Swahili for East African diaspora learners.",             courses: 4, featured: true  },
+  { initials: "CE", name: "Chidi Eze",      rating: 4.6, reviews: 143, languages: ["Igbo"],          bio: "Igbo language advocate and cultural historian. Courses cover language, proverbs, and Igbo cosmology.",                courses: 2, featured: false },
+];
+
+const CREATOR_COURSES = [
+  { title: "The Foundations of Yoruba",   level: "A1",    episodes: 8, duration: "1h 52m", rating: 4.9, reviews: 198, description: "Start from zero. Learn tones, greetings, and the sound system of Yoruba through cinematic storytelling." },
+  { title: "Yoruba in Daily Life",         level: "A2",    episodes: 6, duration: "1h 24m", rating: 4.8, reviews: 87,  description: "Market conversations, family vocabulary, and navigating everyday Nigerian life in Yoruba." },
+  { title: "The Culture Behind the Language", level: "A1-A2", episodes: 5, duration: "58m",   rating: 4.9, reviews: 27,  description: "Egungun, Ifa, Oriki — understanding the spiritual and cultural roots that give Yoruba its depth." },
+];
+
+const REVIEWS = [
+  { name: "Amara T.",  rating: 5, text: "Adunola is extraordinary. I grew up hearing Yoruba but never speaking it. After 3 months I had my first full conversation with my grandmother.", tags: ["Culturally authentic", "Great for beginners"] },
+  { name: "Marcus O.", rating: 5, text: "The production quality is unlike anything I've seen for African language learning. Every episode feels like a documentary.",                        tags: ["Excellent production", "Engaging teacher"]   },
+];
+
+const CEFR_LEVELS = ["A1", "A2", "B1", "B2"];
 
 // ── Reusable primitives ────────────────────────────────────────────────────
 
@@ -132,7 +163,7 @@ function OutlineBtn({
 
 // ── Top navigation bar ─────────────────────────────────────────────────────
 
-const SCREEN_LABELS = ["Onboarding", "Dashboard", "Player", "Progress", "Practice"] as const;
+const SCREEN_LABELS = ["Home", "Domain", "Creator", "Player", "My Learning"] as const;
 
 function TopNav({
   screen,
@@ -247,823 +278,827 @@ function TopNav({
   );
 }
 
-// ── Screen 1: Onboarding ───────────────────────────────────────────────────
+// ── Screen 0: Home ─────────────────────────────────────────────────────────
 
-const LANGUAGES = [
-  { code: "yo", label: "Yoruba",  flag: "🇳🇬" },
-  { code: "sw", label: "Swahili", flag: "🇰🇪" },
-  { code: "tw", label: "Twi",     flag: "🇬🇭" },
-  { code: "ig", label: "Igbo",    flag: "🇳🇬" },
-  { code: "am", label: "Amharic", flag: "🇪🇹" },
-  { code: "ot", label: "Other",   flag: "" },
-];
-
-const LEVELS = [
-  "Complete beginner",
-  "I understand but can't speak",
-  "I know a few phrases",
-  "Conversational",
-];
-
-const REASONS = [
-  "Connect with family",
-  "Raise my children with the language",
-  "Personal heritage connection",
-  "Cultural curiosity",
-];
-
-function OnboardingScreen({
-  onFinish,
-}: {
-  onFinish: () => void;
-}) {
-  const [step, setStep] = useState(0);
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
-  const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
-  const [selectedReason, setSelectedReason] = useState<string | null>(null);
-
-  const totalSteps = 3;
-
+function HomeScreen({ setScreen }: { setScreen: (n: number) => void }) {
   return (
-    <div
-      style={{
-        minHeight: "calc(100vh - 60px)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "40px 24px",
-        background: C.bg,
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: 560 }}>
+    <div style={{ background: C.bg, minHeight: "calc(100vh - 60px)", padding: "36px 24px 60px", fontFamily: C.fontBody }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
 
-        {/* Step indicator */}
-        {step < totalSteps && (
-          <div style={{ marginBottom: 32, textAlign: "center" }}>
-            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 8 }}>
-              {[0, 1, 2].map((dot) => (
-                <div
-                  key={dot}
-                  style={{
-                    width: dot === step ? 24 : 8,
-                    height: 8,
-                    borderRadius: 99,
-                    background: dot === step ? C.magenta : dot < step ? C.magenta : C.border,
-                    opacity: dot < step ? 0.5 : 1,
-                    transition: "all 0.2s",
-                  }}
-                />
-              ))}
-            </div>
-            <span style={{ fontSize: 12, color: C.muted, fontFamily: C.fontBody }}>
-              Step {step + 1} of {totalSteps}
-            </span>
-          </div>
-        )}
-
-        {/* Step 0: Language selection */}
-        {step === 0 && (
-          <div>
-            <h2
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 28,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 8,
-                textAlign: "center",
-              }}
-            >
-              What's your heritage language?
-            </h2>
-            <p style={{ color: C.muted, textAlign: "center", marginBottom: 32, fontSize: 14, fontFamily: C.fontBody }}>
-              Choose the language you want to reconnect with.
-            </p>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 12,
-                marginBottom: 32,
-              }}
-            >
-              {LANGUAGES.map((lang) => {
-                const selected = selectedLanguage === lang.code;
-                return (
-                  <div
-                    key={lang.code}
-                    onClick={() => setSelectedLanguage(lang.code)}
-                    style={{
-                      background: selected ? C.magentaDim : "rgba(255,255,255,0.02)",
-                      border: `2px solid ${selected ? C.magenta : C.border}`,
-                      borderRadius: 12,
-                      padding: "20px 16px",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 12,
-                      transition: "border-color 0.15s, background 0.15s",
-                    }}
-                  >
-                    {lang.flag && (
-                      <span style={{ fontSize: 28, lineHeight: 1 }}>{lang.flag}</span>
-                    )}
-                    {!lang.flag && (
-                      <div
-                        style={{
-                          width: 28,
-                          height: 28,
-                          borderRadius: "50%",
-                          background: C.surface2,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: 12,
-                          color: C.muted,
-                        }}
-                      >
-                        +
-                      </div>
-                    )}
-                    <span
-                      style={{
-                        fontFamily: C.fontBody,
-                        fontSize: 15,
-                        fontWeight: selected ? 600 : 400,
-                        color: selected ? C.cream : C.muted,
-                      }}
-                    >
-                      {lang.label}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-            <MagentaBtn
-              disabled={!selectedLanguage}
-              onClick={() => setStep(1)}
-              style={{ width: "100%", padding: "14px 0", fontSize: 15, borderRadius: 12 }}
-            >
-              Continue
-            </MagentaBtn>
-          </div>
-        )}
-
-        {/* Step 1: Level selection */}
-        {step === 1 && (
-          <div>
-            <h2
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 28,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 8,
-                textAlign: "center",
-              }}
-            >
-              What's your current level?
-            </h2>
-            <p style={{ color: C.muted, textAlign: "center", marginBottom: 32, fontSize: 14, fontFamily: C.fontBody }}>
-              Be honest, there's no wrong answer.
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
-              {LEVELS.map((level) => {
-                const selected = selectedLevel === level;
-                return (
-                  <div
-                    key={level}
-                    onClick={() => setSelectedLevel(level)}
-                    style={{
-                      background: selected ? C.magentaDim : "rgba(255,255,255,0.02)",
-                      border: `2px solid ${selected ? C.magenta : C.border}`,
-                      borderRadius: 12,
-                      padding: "16px 20px",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 14,
-                      transition: "border-color 0.15s, background 0.15s",
-                    }}
-                  >
-                    {/* Radio dot */}
-                    <div
-                      style={{
-                        width: 18,
-                        height: 18,
-                        borderRadius: "50%",
-                        border: `2px solid ${selected ? C.magenta : C.muted}`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                      }}
-                    >
-                      {selected && (
-                        <div
-                          style={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: "50%",
-                            background: C.magenta,
-                          }}
-                        />
-                      )}
-                    </div>
-                    <span
-                      style={{
-                        fontFamily: C.fontBody,
-                        fontSize: 14,
-                        fontWeight: selected ? 600 : 400,
-                        color: selected ? C.cream : C.muted,
-                      }}
-                    >
-                      {level}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-            <div style={{ display: "flex", gap: 12 }}>
-              <OutlineBtn onClick={() => setStep(0)} style={{ flex: 1, padding: "14px 0", borderRadius: 12 }}>
-                Back
-              </OutlineBtn>
-              <MagentaBtn
-                disabled={!selectedLevel}
-                onClick={() => setStep(2)}
-                style={{ flex: 2, padding: "14px 0", fontSize: 15, borderRadius: 12 }}
-              >
-                Continue
-              </MagentaBtn>
-            </div>
-          </div>
-        )}
-
-        {/* Step 2: Reason selection */}
-        {step === 2 && (
-          <div>
-            <h2
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 28,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 8,
-                textAlign: "center",
-              }}
-            >
-              Why are you learning?
-            </h2>
-            <p style={{ color: C.muted, textAlign: "center", marginBottom: 32, fontSize: 14, fontFamily: C.fontBody }}>
-              This helps us personalize your experience.
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
-              {REASONS.map((reason) => {
-                const selected = selectedReason === reason;
-                return (
-                  <div
-                    key={reason}
-                    onClick={() => setSelectedReason(reason)}
-                    style={{
-                      background: selected ? C.magentaDim : "rgba(255,255,255,0.02)",
-                      border: `2px solid ${selected ? C.magenta : C.border}`,
-                      borderRadius: 12,
-                      padding: "16px 20px",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 14,
-                      transition: "border-color 0.15s, background 0.15s",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 18,
-                        height: 18,
-                        borderRadius: "50%",
-                        border: `2px solid ${selected ? C.magenta : C.muted}`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                      }}
-                    >
-                      {selected && (
-                        <div style={{ width: 8, height: 8, borderRadius: "50%", background: C.magenta }} />
-                      )}
-                    </div>
-                    <span
-                      style={{
-                        fontFamily: C.fontBody,
-                        fontSize: 14,
-                        fontWeight: selected ? 600 : 400,
-                        color: selected ? C.cream : C.muted,
-                      }}
-                    >
-                      {reason}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-            <div style={{ display: "flex", gap: 12 }}>
-              <OutlineBtn onClick={() => setStep(1)} style={{ flex: 1, padding: "14px 0", borderRadius: 12 }}>
-                Back
-              </OutlineBtn>
-              <MagentaBtn
-                disabled={!selectedReason}
-                onClick={() => setStep(3)}
-                style={{ flex: 2, padding: "14px 0", fontSize: 15, borderRadius: 12 }}
-              >
-                Continue
-              </MagentaBtn>
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Welcome */}
-        {step === 3 && (
-          <div style={{ textAlign: "center" }}>
-            {/* Decorative glow */}
-            <div
-              style={{
-                width: 80,
-                height: 80,
-                borderRadius: "50%",
-                background: C.magenta,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "0 auto 32px",
-                fontSize: 32,
-                boxShadow: `0 0 48px rgba(194,24,91,0.35)`,
-              }}
-            >
-              A
-            </div>
-            <h1
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 48,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 16,
-                lineHeight: 1.1,
-              }}
-            >
-              Welcome home.
-            </h1>
-            <p
-              style={{
-                color: C.muted,
-                fontSize: 16,
-                marginBottom: 40,
-                fontFamily: C.fontBody,
-              }}
-            >
-              Your Yoruba journey starts here.
-            </p>
-            <MagentaBtn
-              onClick={onFinish}
-              style={{ padding: "14px 48px", fontSize: 16, borderRadius: 12 }}
-            >
-              Go to Dashboard
-            </MagentaBtn>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ── Screen 2: Dashboard ────────────────────────────────────────────────────
-
-const CONTINUE_CARDS = [
-  { num: 1, title: "The Sound System",    duration: "14 min", progress: 100 },
-  { num: 2, title: "Greetings & Respect", duration: "12 min", progress: 60  },
-  { num: 3, title: "The Market Hustle",   duration: "16 min", progress: 0   },
-];
-
-const SEASON1_CARDS = [
-  { num: 1, title: "The Sound System",    duration: "14 min", progress: 100 },
-  { num: 2, title: "Greetings & Respect", duration: "12 min", progress: 60  },
-  { num: 3, title: "The Market Hustle",   duration: "16 min", progress: 0   },
-  { num: 4, title: "Family Structures",   duration: "13 min", progress: 0   },
-  { num: 5, title: "Food & Celebration",  duration: "15 min", progress: 0   },
-];
-
-const CULTURE_CARDS = [
-  { title: "Balogun Market",    subtitle: "Commerce & Culture",    level: "A1" },
-  { title: "Egungun Festival",  subtitle: "Ancestral Masquerade",  level: "A2" },
-  { title: "Yoruba Cuisine",    subtitle: "Food Vocabulary",       level: "A1" },
-];
-
-const PRACTICE_CARDS = [
-  { icon: "▣", title: "Flashcards",   subtitle: "12 cards due today" },
-  { icon: "◎", title: "Tone Trainer", subtitle: "5 min daily drill" },
-  { icon: "★", title: "Word of Day",  subtitle: "Àánú - Compassion" },
-];
-
-function EpisodeThumb({
-  num,
-  title,
-  duration,
-  progress,
-}: {
-  num: number;
-  title: string;
-  duration: string;
-  progress: number;
-}) {
-  return (
-    <div
-      style={{
-        flexShrink: 0,
-        width: 200,
-        background: C.surface,
-        border: `1px solid ${C.border}`,
-        borderRadius: 12,
-        overflow: "hidden",
-        cursor: "pointer",
-      }}
-    >
-      {/* Thumbnail */}
-      <div
-        style={{
-          height: 112,
-          background: `linear-gradient(135deg, ${C.surface2} 0%, ${C.bg} 100%)`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-        }}
-      >
-        <span
-          style={{
-            fontSize: 28,
-            fontWeight: 700,
-            color: C.gold,
-            fontFamily: C.fontDisplay,
-            opacity: 0.6,
-          }}
-        >
-          E{num}
-        </span>
-        {progress === 100 && (
-          <div
-            style={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              width: 20,
-              height: 20,
-              borderRadius: "50%",
-              background: C.magenta,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 10,
-              color: "#fff",
-            }}
-          >
-            ✓
-          </div>
-        )}
-        {progress > 0 && progress < 100 && (
-          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: C.border }}>
-            <div style={{ height: "100%", width: `${progress}%`, background: C.magenta }} />
-          </div>
-        )}
-      </div>
-      {/* Info */}
-      <div style={{ padding: "10px 12px" }}>
-        <p
-          style={{
-            color: C.cream,
-            fontSize: 12,
-            fontWeight: 600,
-            fontFamily: C.fontBody,
-            marginBottom: 3,
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {title}
-        </p>
-        <p style={{ color: C.muted, fontSize: 11, fontFamily: C.fontBody }}>{duration}</p>
-      </div>
-    </div>
-  );
-}
-
-function Carousel({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div style={{ marginBottom: 36 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-        <span
-          style={{
-            fontFamily: C.fontDisplay,
-            fontSize: 16,
-            fontWeight: 600,
-            color: C.cream,
-          }}
-        >
-          {title}
-        </span>
-        <span
-          style={{
-            fontSize: 12,
-            color: C.gold,
-            cursor: "pointer",
-            fontFamily: C.fontBody,
-          }}
-        >
-          See all
-        </span>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          gap: 12,
-          overflowX: "auto",
-          paddingBottom: 8,
-          msOverflowStyle: "none",
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function DashboardScreen({ onGoPlayer }: { onGoPlayer: () => void }) {
-  return (
-    <div style={{ background: C.bg, minHeight: "calc(100vh - 60px)", display: "flex" }}>
-      {/* Sidebar */}
-      <div
-        style={{
-          width: 200,
-          flexShrink: 0,
-          background: C.surface,
-          borderRight: `1px solid ${C.border}`,
-          padding: "32px 0",
-          display: "flex",
-          flexDirection: "column",
-          gap: 4,
-        }}
-      >
-        {[
-          { icon: "⌂", label: "Home",        active: true  },
-          { icon: "◈", label: "My Progress",  active: false },
-          { icon: "◇", label: "Practice",     active: false },
-          { icon: "◎", label: "Community",    active: false },
-          { icon: "○", label: "Profile",      active: false },
-        ].map((item) => (
-          <div
-            key={item.label}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: "11px 24px",
-              cursor: "pointer",
-              borderLeft: `3px solid ${item.active ? C.magenta : "transparent"}`,
-              background: item.active ? C.magentaDim : "transparent",
-            }}
-          >
-            <span style={{ fontSize: 16, color: item.active ? C.magenta : C.muted }}>{item.icon}</span>
-            <span
-              style={{
-                fontSize: 13,
-                fontWeight: item.active ? 600 : 400,
-                color: item.active ? C.cream : C.muted,
-                fontFamily: C.fontBody,
-              }}
-            >
-              {item.label}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      {/* Main content */}
-      <div style={{ flex: 1, padding: "32px 32px 48px", overflowY: "auto" }}>
-
-        {/* Hero banner */}
+        {/* Featured Creator hero banner */}
         <div
           style={{
-            background: `linear-gradient(120deg, ${C.surface2} 0%, ${C.surface} 100%)`,
+            background: C.surface,
             border: `1px solid ${C.border}`,
+            borderLeft: `4px solid ${C.gold}`,
             borderRadius: 16,
-            padding: "28px 32px",
-            marginBottom: 36,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            padding: "32px 36px",
+            marginBottom: 48,
             position: "relative",
             overflow: "hidden",
           }}
         >
-          {/* Subtle glow */}
+          {/* Subtle ambient glow */}
           <div
             style={{
               position: "absolute",
               right: 0,
               top: 0,
-              width: 300,
+              width: 400,
               height: "100%",
-              background: "radial-gradient(ellipse at 80% 50%, rgba(194,24,91,0.08) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse at 80% 50%, rgba(200,147,42,0.07) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
-          <div>
-            <p style={{ color: C.muted, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6, fontFamily: C.fontBody }}>
-              Continue Watching
-            </p>
-            <h2
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 22,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 4,
-              }}
-            >
-              Episode 2: Greetings & Respect
-            </h2>
-            <p style={{ color: C.muted, fontSize: 13, marginBottom: 16, fontFamily: C.fontBody }}>
-              Yoruba, Season 1
-            </p>
-            {/* Progress bar */}
-            <div style={{ width: 260, height: 4, background: C.border, borderRadius: 99, marginBottom: 16 }}>
-              <div style={{ height: "100%", width: "60%", background: C.magenta, borderRadius: 99 }} />
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <MagentaBtn onClick={onGoPlayer} style={{ padding: "9px 24px", fontSize: 13, borderRadius: 8 }}>
-                Resume
-              </MagentaBtn>
-              <span
-                style={{
-                  fontSize: 11,
-                  padding: "4px 10px",
-                  background: C.magentaDim,
-                  color: C.magentaLight,
-                  border: `1px solid rgba(194,24,91,0.25)`,
-                  borderRadius: 99,
-                  fontWeight: 600,
-                  fontFamily: C.fontBody,
-                }}
-              >
-                CEFR A1
-              </span>
-            </div>
-          </div>
-          <div
+          <p
             style={{
-              width: 120,
-              height: 80,
-              borderRadius: 10,
-              background: C.bg,
-              border: `1px solid ${C.border}`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-              zIndex: 1,
+              color: C.magenta,
+              fontSize: 12,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.12em",
+              marginBottom: 10,
+              fontFamily: C.fontBody,
             }}
           >
-            <div
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: "50%",
-                background: C.magenta,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: 0,
-                  height: 0,
-                  borderTop: "7px solid transparent",
-                  borderBottom: "7px solid transparent",
-                  borderLeft: "11px solid #fff",
-                  marginLeft: 2,
-                }}
-              />
-            </div>
+            Featured Creator
+          </p>
+          <h2
+            style={{
+              fontFamily: C.fontDisplay,
+              fontSize: 24,
+              fontWeight: 700,
+              color: C.cream,
+              marginBottom: 6,
+              lineHeight: 1.2,
+            }}
+          >
+            Adunola Okafor
+          </h2>
+          <p style={{ color: C.muted, fontSize: 14, marginBottom: 6, fontFamily: C.fontBody }}>
+            Yoruba Language &amp; Culture &middot; 4.9&#9733; &middot; 2,340 learners
+          </p>
+          <p style={{ color: C.cream, fontSize: 14, marginBottom: 24, fontFamily: C.fontBody, opacity: 0.85 }}>
+            The Foundations of Yoruba — Season 1 now complete
+          </p>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <MagentaBtn onClick={() => setScreen(2)} style={{ padding: "10px 22px", borderRadius: 10 }}>
+              View Creator
+            </MagentaBtn>
+            <OutlineBtn style={{ padding: "10px 22px", borderRadius: 10 }}>
+              See All Creators
+            </OutlineBtn>
           </div>
         </div>
 
-        {/* Carousels */}
-        <Carousel title="Continue Learning">
-          {CONTINUE_CARDS.map((ep) => (
-            <EpisodeThumb key={ep.num} {...ep} />
-          ))}
-        </Carousel>
+        {/* Explore by Domain */}
+        <div style={{ marginBottom: 48 }}>
+          <p
+            style={{
+              color: C.muted,
+              fontSize: 11,
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.12em",
+              marginBottom: 20,
+            }}
+          >
+            Explore by Domain
+          </p>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 16,
+            }}
+          >
+            {DOMAINS.map((domain) => {
+              const isLanguage = domain.name === "Language Learning";
+              return (
+                <div
+                  key={domain.name}
+                  onClick={() => { if (isLanguage) setScreen(1); }}
+                  style={{
+                    background: C.surface,
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 14,
+                    padding: "20px 22px",
+                    cursor: "pointer",
+                    transition: "border-color 0.15s",
+                    display: "flex",
+                    gap: 16,
+                    alignItems: "flex-start",
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = C.magenta; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = C.border; }}
+                >
+                  <span style={{ fontSize: 28, lineHeight: 1, flexShrink: 0 }}>{domain.icon}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p
+                      style={{
+                        color: C.cream,
+                        fontSize: 14,
+                        fontWeight: 700,
+                        fontFamily: C.fontBody,
+                        marginBottom: 3,
+                      }}
+                    >
+                      {domain.name}
+                    </p>
+                    <p style={{ color: C.muted, fontSize: 12, marginBottom: 8, fontFamily: C.fontBody }}>
+                      {domain.tag}
+                    </p>
+                    <p style={{ color: C.muted, fontSize: 11, fontFamily: C.fontBody }}>
+                      {domain.creators} creators &middot; {domain.courses} courses
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
-        <Carousel title="Season 1: The Foundations (A1)">
-          {SEASON1_CARDS.map((ep) => (
-            <EpisodeThumb key={ep.num} {...ep} />
-          ))}
-        </Carousel>
-
-        <Carousel title="Cultural Immersion">
-          {CULTURE_CARDS.map((card) => (
-            <div
-              key={card.title}
-              style={{
-                flexShrink: 0,
-                width: 200,
-                background: C.surface,
-                border: `1px solid ${C.border}`,
-                borderRadius: 12,
-                overflow: "hidden",
-                cursor: "pointer",
-              }}
-            >
+        {/* Recommended Creators */}
+        <div>
+          <p
+            style={{
+              color: C.muted,
+              fontSize: 11,
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.12em",
+              marginBottom: 16,
+            }}
+          >
+            Recommended Creators
+          </p>
+          <div style={{ display: "flex", gap: 16, overflowX: "auto", paddingBottom: 8 }}>
+            {CREATORS.slice(0, 3).map((creator) => (
               <div
+                key={creator.name}
                 style={{
-                  height: 112,
-                  background: `linear-gradient(135deg, rgba(200,147,42,0.15) 0%, ${C.bg} 100%)`,
+                  flexShrink: 0,
+                  width: 220,
+                  background: C.surface,
+                  border: `1px solid ${C.border}`,
+                  borderRadius: 14,
+                  padding: "20px 18px",
+                  cursor: "pointer",
                   display: "flex",
-                  alignItems: "flex-end",
-                  padding: 10,
+                  flexDirection: "column",
+                  gap: 10,
                 }}
               >
-                <span
+                {/* Avatar */}
+                <div
                   style={{
-                    fontSize: 10,
-                    padding: "3px 8px",
-                    background: C.goldDim,
-                    color: C.gold,
-                    border: `1px solid rgba(200,147,42,0.3)`,
-                    borderRadius: 99,
-                    fontWeight: 600,
-                    fontFamily: C.fontBody,
+                    width: 52,
+                    height: 52,
+                    borderRadius: "50%",
+                    background: `linear-gradient(135deg, ${C.magenta} 0%, ${C.surface2} 100%)`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "#fff",
+                    fontFamily: C.fontDisplay,
                   }}
                 >
-                  {card.level}
-                </span>
+                  {creator.initials}
+                </div>
+                <div>
+                  <p style={{ color: C.cream, fontSize: 14, fontWeight: 700, fontFamily: C.fontBody, marginBottom: 2 }}>
+                    {creator.name}
+                  </p>
+                  <p style={{ color: C.muted, fontSize: 12, fontFamily: C.fontBody, marginBottom: 4 }}>
+                    {creator.languages.join(", ")}
+                  </p>
+                  <p style={{ color: C.gold, fontSize: 12, fontFamily: C.fontBody }}>
+                    &#9733; {creator.rating}
+                  </p>
+                </div>
               </div>
-              <div style={{ padding: "10px 12px" }}>
-                <p style={{ color: C.cream, fontSize: 12, fontWeight: 600, fontFamily: C.fontBody, marginBottom: 3 }}>
-                  {card.title}
-                </p>
-                <p style={{ color: C.muted, fontSize: 11, fontFamily: C.fontBody }}>{card.subtitle}</p>
-              </div>
-            </div>
-          ))}
-        </Carousel>
-
-        <Carousel title="Daily Practice">
-          {PRACTICE_CARDS.map((card) => (
-            <div
-              key={card.title}
-              style={{
-                flexShrink: 0,
-                width: 200,
-                background: C.surface,
-                border: `1px solid ${C.border}`,
-                borderRadius: 12,
-                padding: "20px 16px",
-                cursor: "pointer",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 24,
-                  marginBottom: 10,
-                  color: C.magenta,
-                }}
-              >
-                {card.icon}
-              </div>
-              <p style={{ color: C.cream, fontSize: 13, fontWeight: 600, fontFamily: C.fontBody, marginBottom: 4 }}>
-                {card.title}
-              </p>
-              <p style={{ color: C.muted, fontSize: 11, fontFamily: C.fontBody }}>{card.subtitle}</p>
-            </div>
-          ))}
-        </Carousel>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-// ── Screen 3: Episode Player ───────────────────────────────────────────────
+// ── Screen 1: Domain Page (Language) ───────────────────────────────────────
 
-function PlayerScreen() {
+const LANG_FILTERS = ["All", "Yoruba", "Swahili", "Twi", "Igbo", "Amharic"];
+
+function DomainScreen({ setScreen }: { setScreen: (n: number) => void }) {
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  return (
+    <div style={{ background: C.bg, minHeight: "calc(100vh - 60px)", padding: "36px 24px 60px", fontFamily: C.fontBody }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+
+        {/* Domain header */}
+        <div
+          style={{
+            background: C.surface,
+            border: `1px solid ${C.border}`,
+            borderLeft: `4px solid ${C.gold}`,
+            borderRadius: 16,
+            padding: "28px 32px",
+            marginBottom: 32,
+          }}
+        >
+          <p
+            style={{
+              color: C.magenta,
+              fontSize: 12,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.12em",
+              marginBottom: 8,
+              fontFamily: C.fontBody,
+            }}
+          >
+            Language Learning
+          </p>
+          <h2
+            style={{
+              fontFamily: C.fontDisplay,
+              fontSize: 26,
+              fontWeight: 700,
+              color: C.cream,
+              marginBottom: 6,
+            }}
+          >
+            Speak your roots
+          </h2>
+          <p style={{ color: C.muted, fontSize: 13, fontFamily: C.fontBody }}>
+            12 creators &middot; 34 courses &middot; A1 through B2
+          </p>
+        </div>
+
+        {/* Filter row */}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 28, alignItems: "center" }}>
+          {LANG_FILTERS.map((f) => {
+            const active = activeFilter === f;
+            return (
+              <button
+                key={f}
+                onClick={() => setActiveFilter(f)}
+                style={{
+                  background: active ? C.magenta : "transparent",
+                  color: active ? "#fff" : C.muted,
+                  border: `1px solid ${active ? C.magenta : C.border}`,
+                  borderRadius: 99,
+                  padding: "6px 16px",
+                  fontSize: 13,
+                  fontWeight: active ? 600 : 400,
+                  cursor: "pointer",
+                  fontFamily: C.fontBody,
+                  transition: "all 0.15s",
+                }}
+              >
+                {f}
+              </button>
+            );
+          })}
+          <div style={{ flex: 1 }} />
+          {["4.5+ stars", "Top Rated"].map((chip) => (
+            <button
+              key={chip}
+              style={{
+                background: "transparent",
+                color: C.muted,
+                border: `1px solid ${C.border}`,
+                borderRadius: 99,
+                padding: "6px 16px",
+                fontSize: 13,
+                cursor: "pointer",
+                fontFamily: C.fontBody,
+              }}
+            >
+              {chip}
+            </button>
+          ))}
+        </div>
+
+        {/* Creator grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          {CREATORS.map((creator) => (
+            <div
+              key={creator.name}
+              style={{
+                background: C.surface,
+                border: `1px solid ${C.border}`,
+                borderRadius: 16,
+                padding: "22px 24px",
+              }}
+            >
+              {/* Top row */}
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 12 }}>
+                {/* Avatar */}
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: "50%",
+                    background: C.magenta,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 17,
+                    fontWeight: 700,
+                    color: "#fff",
+                    fontFamily: C.fontDisplay,
+                    flexShrink: 0,
+                  }}
+                >
+                  {creator.initials}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 2 }}>
+                    <p style={{ color: C.cream, fontSize: 15, fontWeight: 700, fontFamily: C.fontBody }}>
+                      {creator.name}
+                    </p>
+                    {creator.featured && (
+                      <span
+                        style={{
+                          fontSize: 10,
+                          padding: "2px 8px",
+                          background: C.goldDim,
+                          color: C.gold,
+                          border: `1px solid rgba(200,147,42,0.35)`,
+                          borderRadius: 99,
+                          fontWeight: 700,
+                          fontFamily: C.fontBody,
+                        }}
+                      >
+                        Asa Pick
+                      </span>
+                    )}
+                  </div>
+                  <p style={{ color: C.muted, fontSize: 12, fontFamily: C.fontBody }}>
+                    &#9733; {creator.rating} &middot; {creator.reviews} reviews
+                  </p>
+                </div>
+              </div>
+
+              {/* Language tags */}
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+                {creator.languages.map((lang) => (
+                  <span
+                    key={lang}
+                    style={{
+                      fontSize: 11,
+                      padding: "2px 9px",
+                      background: C.surface2,
+                      color: C.muted,
+                      border: `1px solid ${C.border}`,
+                      borderRadius: 99,
+                      fontFamily: C.fontBody,
+                    }}
+                  >
+                    {lang}
+                  </span>
+                ))}
+              </div>
+
+              {/* Bio */}
+              <p
+                style={{
+                  color: C.muted,
+                  fontSize: 13,
+                  fontFamily: C.fontBody,
+                  lineHeight: 1.5,
+                  marginBottom: 16,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {creator.bio}
+              </p>
+
+              {/* Bottom row */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <p style={{ color: C.muted, fontSize: 12, fontFamily: C.fontBody }}>
+                  {creator.courses} courses
+                </p>
+                <MagentaBtn onClick={() => setScreen(2)} style={{ padding: "8px 18px", fontSize: 13, borderRadius: 9 }}>
+                  View Profile
+                </MagentaBtn>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Screen 2: Creator Profile ───────────────────────────────────────────────
+
+function CreatorProfileScreen({ setScreen }: { setScreen: (n: number) => void }) {
+  const [activeTab, setActiveTab] = useState<"courses" | "about" | "reviews">("courses");
+
+  return (
+    <div style={{ background: C.bg, minHeight: "calc(100vh - 60px)", padding: "0 0 60px", fontFamily: C.fontBody }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+
+        {/* Header section */}
+        <div
+          style={{
+            background: C.surface,
+            border: `1px solid ${C.border}`,
+            borderRadius: 16,
+            overflow: "hidden",
+            marginTop: 32,
+            marginBottom: 28,
+          }}
+        >
+          {/* Banner gradient */}
+          <div
+            style={{
+              height: 140,
+              background: `linear-gradient(120deg, ${C.bg} 0%, ${C.surface2} 100%)`,
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "radial-gradient(ellipse at 60% 50%, rgba(200,147,42,0.10) 0%, transparent 70%)",
+              }}
+            />
+          </div>
+
+          <div style={{ padding: "0 32px 28px" }}>
+            {/* Avatar overlapping banner */}
+            <div
+              style={{
+                width: 72,
+                height: 72,
+                borderRadius: "50%",
+                background: C.magenta,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 26,
+                fontWeight: 700,
+                color: "#fff",
+                fontFamily: C.fontDisplay,
+                marginTop: -36,
+                border: `3px solid ${C.surface}`,
+                marginBottom: 16,
+              }}
+            >
+              AO
+            </div>
+
+            {/* Name + chips */}
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
+              <div>
+                <h1
+                  style={{
+                    fontFamily: C.fontDisplay,
+                    fontSize: 28,
+                    fontWeight: 700,
+                    color: C.cream,
+                    marginBottom: 4,
+                  }}
+                >
+                  Adunola Okafor
+                </h1>
+                <p style={{ color: C.muted, fontSize: 14, fontFamily: C.fontBody }}>
+                  Yoruba Language &amp; Culture Educator
+                </p>
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <span
+                  style={{
+                    fontSize: 11,
+                    padding: "4px 12px",
+                    background: C.goldDim,
+                    color: C.gold,
+                    border: `1px solid rgba(200,147,42,0.35)`,
+                    borderRadius: 99,
+                    fontWeight: 700,
+                    fontFamily: C.fontBody,
+                  }}
+                >
+                  Asa Verified
+                </span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    padding: "4px 12px",
+                    background: C.magentaDim,
+                    color: C.magentaLight,
+                    border: `1px solid rgba(194,24,91,0.25)`,
+                    borderRadius: 99,
+                    fontWeight: 700,
+                    fontFamily: C.fontBody,
+                  }}
+                >
+                  Editorial Pick
+                </span>
+              </div>
+            </div>
+
+            {/* Meta row */}
+            <p style={{ color: C.muted, fontSize: 13, fontFamily: C.fontBody }}>
+              &#9733; 4.9 &middot; 312 reviews &middot; 2,340 learners &middot; Yoruba, English
+            </p>
+          </div>
+        </div>
+
+        {/* Tab bar */}
+        <div style={{ borderBottom: `1px solid ${C.border}`, display: "flex", gap: 0, marginBottom: 28 }}>
+          {(["courses", "about", "reviews"] as const).map((tab) => {
+            const active = activeTab === tab;
+            const label = tab.charAt(0).toUpperCase() + tab.slice(1);
+            return (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  borderBottom: active ? `2px solid ${C.magenta}` : "2px solid transparent",
+                  color: active ? C.cream : C.muted,
+                  fontFamily: C.fontBody,
+                  fontSize: 14,
+                  fontWeight: active ? 600 : 400,
+                  padding: "10px 24px",
+                  cursor: "pointer",
+                  marginBottom: -1,
+                  transition: "color 0.15s",
+                }}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Courses tab */}
+        {activeTab === "courses" && (
+          <div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 40 }}>
+              {CREATOR_COURSES.map((course) => (
+                <div
+                  key={course.title}
+                  style={{
+                    background: C.surface,
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 14,
+                    padding: "22px 24px",
+                    display: "flex",
+                    gap: 20,
+                    alignItems: "flex-start",
+                  }}
+                >
+                  {/* Thumbnail placeholder */}
+                  <div
+                    style={{
+                      width: 120,
+                      height: 80,
+                      borderRadius: 10,
+                      background: `linear-gradient(135deg, ${C.surface2} 0%, ${C.bg} 100%)`,
+                      border: `1px solid ${C.border}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: 22,
+                        fontWeight: 700,
+                        color: C.gold,
+                        fontFamily: C.fontDisplay,
+                        opacity: 0.7,
+                      }}
+                    >
+                      A
+                    </span>
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
+                      <p style={{ color: C.cream, fontSize: 16, fontWeight: 700, fontFamily: C.fontBody }}>
+                        {course.title}
+                      </p>
+                      <span
+                        style={{
+                          fontSize: 10,
+                          padding: "2px 8px",
+                          background: C.goldDim,
+                          color: C.gold,
+                          border: `1px solid rgba(200,147,42,0.3)`,
+                          borderRadius: 99,
+                          fontWeight: 700,
+                          fontFamily: C.fontBody,
+                        }}
+                      >
+                        {course.level}
+                      </span>
+                    </div>
+                    <p style={{ color: C.muted, fontSize: 12, fontFamily: C.fontBody, marginBottom: 6 }}>
+                      {course.episodes} episodes &middot; {course.duration} &middot; &#9733; {course.rating} ({course.reviews})
+                    </p>
+                    <p
+                      style={{
+                        color: C.muted,
+                        fontSize: 13,
+                        fontFamily: C.fontBody,
+                        lineHeight: 1.5,
+                        marginBottom: 14,
+                      }}
+                    >
+                      {course.description}
+                    </p>
+                    <MagentaBtn
+                      onClick={() => setScreen(3)}
+                      style={{ padding: "8px 20px", fontSize: 13, borderRadius: 9 }}
+                    >
+                      Start Course
+                    </MagentaBtn>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Reviews preview */}
+            <p
+              style={{
+                color: C.muted,
+                fontSize: 11,
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                marginBottom: 16,
+              }}
+            >
+              Recent Reviews
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {REVIEWS.map((review) => (
+                <div
+                  key={review.name}
+                  style={{
+                    background: C.surface,
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 14,
+                    padding: "20px 22px",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                    <div
+                      style={{
+                        width: 34,
+                        height: 34,
+                        borderRadius: "50%",
+                        background: C.surface2,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 13,
+                        fontWeight: 700,
+                        color: C.muted,
+                        flexShrink: 0,
+                      }}
+                    >
+                      {review.name.charAt(0)}
+                    </div>
+                    <div>
+                      <p style={{ color: C.cream, fontSize: 13, fontWeight: 600, fontFamily: C.fontBody }}>
+                        {review.name}
+                      </p>
+                      <p style={{ color: C.gold, fontSize: 12 }}>{"★".repeat(review.rating)}</p>
+                    </div>
+                  </div>
+                  <p style={{ color: C.muted, fontSize: 13, fontFamily: C.fontBody, lineHeight: 1.55, marginBottom: 12 }}>
+                    {review.text}
+                  </p>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    {review.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          fontSize: 11,
+                          padding: "2px 10px",
+                          background: C.surface2,
+                          color: C.muted,
+                          border: `1px solid ${C.border}`,
+                          borderRadius: 99,
+                          fontFamily: C.fontBody,
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* About tab */}
+        {activeTab === "about" && (
+          <div
+            style={{
+              background: C.surface,
+              border: `1px solid ${C.border}`,
+              borderRadius: 14,
+              padding: "28px 28px",
+            }}
+          >
+            <p style={{ color: C.muted, fontSize: 13, fontFamily: C.fontBody, lineHeight: 1.6 }}>
+              Adunola Okafor is a cultural educator and linguist from Ibadan, Nigeria. With 15 years of experience
+              teaching Yoruba to diaspora communities in London and Houston, she brings a deeply personal and cinematic
+              approach to language instruction. Her courses blend linguistics, storytelling, and cultural history to
+              give learners not just a language, but a world to step into.
+            </p>
+          </div>
+        )}
+
+        {/* Reviews tab */}
+        {activeTab === "reviews" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {REVIEWS.map((review) => (
+              <div
+                key={review.name}
+                style={{
+                  background: C.surface,
+                  border: `1px solid ${C.border}`,
+                  borderRadius: 14,
+                  padding: "20px 22px",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <div
+                    style={{
+                      width: 34,
+                      height: 34,
+                      borderRadius: "50%",
+                      background: C.surface2,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: C.muted,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {review.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p style={{ color: C.cream, fontSize: 13, fontWeight: 600, fontFamily: C.fontBody }}>
+                      {review.name}
+                    </p>
+                    <p style={{ color: C.gold, fontSize: 12 }}>{"★".repeat(review.rating)}</p>
+                  </div>
+                </div>
+                <p style={{ color: C.muted, fontSize: 13, fontFamily: C.fontBody, lineHeight: 1.55, marginBottom: 12 }}>
+                  {review.text}
+                </p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  {review.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontSize: 11,
+                        padding: "2px 10px",
+                        background: C.surface2,
+                        color: C.muted,
+                        border: `1px solid ${C.border}`,
+                        borderRadius: 99,
+                        fontFamily: C.fontBody,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Screen 3: Player ───────────────────────────────────────────────────────
+
+function PlayerScreen({ setScreen }: { setScreen: (n: number) => void }) {
   const [activeTab, setActiveTab] = useState<"vocabulary" | "notes" | "quiz">("vocabulary");
 
   return (
@@ -1084,8 +1119,63 @@ function PlayerScreen() {
           gap: 24,
         }}
       >
-        {/* Left: video + tabs */}
+        {/* Left: creator bar + video + tabs */}
         <div>
+          {/* Creator bar */}
+          <div
+            style={{
+              background: C.surface,
+              border: `1px solid ${C.border}`,
+              borderRadius: 12,
+              padding: "12px 16px",
+              marginBottom: 14,
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                background: C.magenta,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 12,
+                fontWeight: 700,
+                color: "#fff",
+                fontFamily: C.fontDisplay,
+                flexShrink: 0,
+              }}
+            >
+              AO
+            </div>
+            <div style={{ flex: 1 }}>
+              <p style={{ color: C.cream, fontSize: 13, fontWeight: 600, fontFamily: C.fontBody }}>
+                Adunola Okafor
+              </p>
+              <p style={{ color: C.muted, fontSize: 11, fontFamily: C.fontBody }}>
+                Yoruba Language &amp; Culture
+              </p>
+            </div>
+            <button
+              onClick={() => setScreen(2)}
+              style={{
+                background: "transparent",
+                border: "none",
+                color: C.magenta,
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                fontFamily: C.fontBody,
+              }}
+            >
+              View Profile
+            </button>
+          </div>
+
           {/* 16:9 video player */}
           <div
             style={{
@@ -1552,27 +1642,19 @@ function PlayerScreen() {
   );
 }
 
-// ── Screen 4: Progress Dashboard ───────────────────────────────────────────
+// ── Screen 4: My Learning ──────────────────────────────────────────────────
 
-const CEFR_LEVELS = ["A1", "A2", "B1", "B2"];
-
-// 6 rows x 7 cols — current week is row 5, Mon-Fri filled
-const HEATMAP_DATA: number[][] = [
-  [1, 0, 1, 1, 0, 0, 0],
-  [0, 1, 1, 0, 1, 0, 0],
-  [1, 1, 0, 1, 1, 0, 0],
-  [0, 1, 1, 1, 0, 0, 0],
-  [1, 0, 1, 0, 1, 0, 0],
-  [1, 1, 1, 1, 1, 0, 0], // current week
+const MY_COURSES = [
+  { course: "The Foundations of Yoruba", creator: "Adunola Okafor", progress: 62, episode: "E5 of 8", level: "A1" },
+  { course: "Yoruba in Daily Life",        creator: "Adunola Okafor", progress: 17, episode: "E1 of 6", level: "A2" },
 ];
 
-const ACHIEVEMENTS = [
-  { icon: "▣", title: "First Episode",  subtitle: "Completed your first lesson", unlocked: true  },
-  { icon: "◆", title: "5-Day Streak",   subtitle: "Practiced 5 days in a row",   unlocked: true  },
-  { icon: "♪", title: "Tone Master",    subtitle: "Score 90%+ on tone exercises", unlocked: false },
+const SAVED_CREATORS = [
+  { initials: "AO", name: "Adunola Okafor" },
+  { initials: "FM", name: "Fatuma Mbeki"   },
 ];
 
-function ProgressScreen() {
+function MyLearningScreen({ setScreen }: { setScreen: (n: number) => void }) {
   return (
     <div
       style={{
@@ -1584,109 +1666,219 @@ function ProgressScreen() {
     >
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
 
-        {/* CEFR roadmap */}
-        <div style={{ marginBottom: 40 }}>
-          <p
-            style={{
-              color: C.muted,
-              fontSize: 11,
-              fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              marginBottom: 20,
-            }}
-          >
-            Your CEFR Journey
-          </p>
-          <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-            {CEFR_LEVELS.map((level, i) => {
-              const active = level === "A1";
-              const done = false;
-              return (
-                <div key={level} style={{ display: "flex", alignItems: "center", flex: i < CEFR_LEVELS.length - 1 ? 1 : "none" }}>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-                    {/* Progress ring for A1 */}
-                    {active ? (
+        <h1
+          style={{
+            fontFamily: C.fontDisplay,
+            fontSize: 28,
+            fontWeight: 700,
+            color: C.cream,
+            marginBottom: 32,
+          }}
+        >
+          My Learning
+        </h1>
+
+        {/* Currently Learning */}
+        <p
+          style={{
+            color: C.muted,
+            fontSize: 11,
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            marginBottom: 16,
+          }}
+        >
+          Currently Learning
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 44 }}>
+          {MY_COURSES.map((item) => (
+            <div
+              key={item.course}
+              style={{
+                background: C.surface,
+                border: `1px solid ${C.border}`,
+                borderRadius: 14,
+                padding: "20px 22px",
+                display: "flex",
+                gap: 18,
+                alignItems: "flex-start",
+              }}
+            >
+              {/* Thumbnail placeholder */}
+              <div
+                style={{
+                  width: 96,
+                  height: 64,
+                  borderRadius: 10,
+                  background: `linear-gradient(135deg, ${C.surface2} 0%, ${C.bg} 100%)`,
+                  border: `1px solid ${C.border}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: C.gold,
+                  fontFamily: C.fontDisplay,
+                  opacity: 0.7,
+                }}
+              >
+                A
+              </div>
+
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3, flexWrap: "wrap" }}>
+                  <p style={{ color: C.cream, fontSize: 15, fontWeight: 700, fontFamily: C.fontBody }}>
+                    {item.course}
+                  </p>
+                  <span
+                    style={{
+                      fontSize: 10,
+                      padding: "2px 8px",
+                      background: C.goldDim,
+                      color: C.gold,
+                      border: `1px solid rgba(200,147,42,0.3)`,
+                      borderRadius: 99,
+                      fontWeight: 700,
+                      fontFamily: C.fontBody,
+                    }}
+                  >
+                    {item.level}
+                  </span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
+                  <div
+                    style={{
+                      width: 18,
+                      height: 18,
+                      borderRadius: "50%",
+                      background: C.magenta,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 8,
+                      fontWeight: 700,
+                      color: "#fff",
+                      fontFamily: C.fontDisplay,
+                      flexShrink: 0,
+                    }}
+                  >
+                    AO
+                  </div>
+                  <p style={{ color: C.muted, fontSize: 12, fontFamily: C.fontBody }}>{item.creator}</p>
+                </div>
+                {/* Progress bar */}
+                <div style={{ marginBottom: 8 }}>
+                  <div style={{ height: 4, background: C.border, borderRadius: 99, marginBottom: 5 }}>
+                    <div style={{ height: "100%", width: `${item.progress}%`, background: C.magenta, borderRadius: 99 }} />
+                  </div>
+                  <p style={{ color: C.muted, fontSize: 11, fontFamily: C.fontBody }}>
+                    {item.episode} &middot; {item.progress}% complete
+                  </p>
+                </div>
+                <MagentaBtn
+                  onClick={() => setScreen(3)}
+                  style={{ padding: "8px 18px", fontSize: 13, borderRadius: 9 }}
+                >
+                  Continue
+                </MagentaBtn>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CEFR Journey */}
+        <p
+          style={{
+            color: C.muted,
+            fontSize: 11,
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            marginBottom: 20,
+          }}
+        >
+          CEFR Journey
+        </p>
+        <div style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 44 }}>
+          {CEFR_LEVELS.map((level, i) => {
+            const active = level === "A1";
+            return (
+              <div
+                key={level}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flex: i < CEFR_LEVELS.length - 1 ? 1 : "none",
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                  {active ? (
+                    <div
+                      style={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: "50%",
+                        background: `conic-gradient(${C.magenta} 34%, ${C.border} 34%)`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position: "relative",
+                      }}
+                    >
                       <div
                         style={{
-                          width: 56,
-                          height: 56,
+                          width: 42,
+                          height: 42,
                           borderRadius: "50%",
-                          background: `conic-gradient(${C.magenta} 34%, ${C.border} 34%)`,
+                          background: C.bg,
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          position: "relative",
                         }}
                       >
-                        <div
-                          style={{
-                            width: 42,
-                            height: 42,
-                            borderRadius: "50%",
-                            background: C.bg,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: 13,
-                              fontWeight: 700,
-                              color: C.magenta,
-                              fontFamily: C.fontDisplay,
-                            }}
-                          >
-                            {level}
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          width: 56,
-                          height: 56,
-                          borderRadius: "50%",
-                          background: done ? C.surface2 : C.surface,
-                          border: `2px solid ${done ? C.border : C.border}`,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: 13,
-                            fontWeight: 600,
-                            color: C.muted,
-                            fontFamily: C.fontDisplay,
-                          }}
-                        >
+                        <span style={{ fontSize: 13, fontWeight: 700, color: C.magenta, fontFamily: C.fontDisplay }}>
                           {level}
                         </span>
                       </div>
-                    )}
-                    <span style={{ fontSize: 10, color: active ? C.magenta : C.muted }}>
-                      {active ? "In progress" : "Locked"}
-                    </span>
-                  </div>
-                  {/* Connector line */}
-                  {i < CEFR_LEVELS.length - 1 && (
+                    </div>
+                  ) : (
                     <div
                       style={{
-                        flex: 1,
-                        height: 2,
-                        background: C.border,
-                        margin: "0 8px",
-                        marginBottom: 20,
+                        width: 56,
+                        height: 56,
+                        borderRadius: "50%",
+                        background: C.surface,
+                        border: `2px solid ${C.border}`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
-                    />
+                    >
+                      <span style={{ fontSize: 13, fontWeight: 600, color: C.muted, fontFamily: C.fontDisplay }}>
+                        {level}
+                      </span>
+                    </div>
                   )}
+                  <span style={{ fontSize: 10, color: active ? C.magenta : C.muted }}>
+                    {active ? "In progress" : "Locked"}
+                  </span>
                 </div>
-              );
-            })}
-          </div>
+                {i < CEFR_LEVELS.length - 1 && (
+                  <div
+                    style={{
+                      flex: 1,
+                      height: 2,
+                      background: C.border,
+                      margin: "0 8px",
+                      marginBottom: 20,
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {/* Stats row */}
@@ -1695,454 +1887,119 @@ function ProgressScreen() {
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
             gap: 14,
-            marginBottom: 36,
+            marginBottom: 44,
           }}
         >
           {[
-            { label: "Episodes Completed", value: "1 of 8", sub: "Season 1"     },
-            { label: "Vocabulary Learned",  value: "24",      sub: "words"        },
-            { label: "Current Streak",      value: "5",       sub: "days"         },
-            { label: "Time Learning",        value: "1h 42m",  sub: "total"        },
+            { label: "Episodes Completed", value: "5 of 14" },
+            { label: "Vocabulary Learned",  value: "38 words" },
+            { label: "Current Streak",      value: "7 days"   },
+            { label: "Time Learning",        value: "2h 14m"   },
           ].map((stat) => (
             <Card key={stat.label} style={{ padding: "20px 16px", textAlign: "center" }}>
               <p
                 style={{
                   fontFamily: C.fontDisplay,
-                  fontSize: 28,
+                  fontSize: 24,
                   fontWeight: 700,
                   color: C.cream,
-                  marginBottom: 4,
+                  marginBottom: 6,
                   lineHeight: 1,
                 }}
               >
                 {stat.value}
               </p>
-              <p style={{ color: C.muted, fontSize: 11, marginBottom: 4 }}>{stat.sub}</p>
-              <p style={{ color: C.muted, fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+              <p
+                style={{
+                  color: C.muted,
+                  fontSize: 11,
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                }}
+              >
                 {stat.label}
               </p>
             </Card>
           ))}
         </div>
 
-        {/* Weekly heatmap */}
-        <Card style={{ padding: "24px 24px 20px", marginBottom: 28 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <p style={{ color: C.cream, fontSize: 14, fontWeight: 600, fontFamily: C.fontDisplay }}>
-              Activity
-            </p>
-            <p style={{ color: C.muted, fontSize: 12 }}>Last 6 weeks</p>
-          </div>
-          {/* Day labels */}
-          <div style={{ display: "flex", gap: 5, marginBottom: 5, paddingLeft: 0 }}>
-            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
-              <div key={d} style={{ flex: 1, textAlign: "center", fontSize: 10, color: C.muted }}>
-                {d}
-              </div>
-            ))}
-          </div>
-          {/* Grid */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-            {HEATMAP_DATA.map((row, ri) => (
-              <div key={ri} style={{ display: "flex", gap: 5 }}>
-                {row.map((filled, ci) => (
-                  <div
-                    key={ci}
-                    style={{
-                      flex: 1,
-                      aspectRatio: "1",
-                      borderRadius: 4,
-                      background:
-                        ri === 5 && filled
-                          ? C.magenta
-                          : filled
-                          ? `rgba(194,24,91,0.25)`
-                          : C.surface2,
-                    }}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-        </Card>
-
-        {/* Achievements */}
-        <div>
-          <p
-            style={{
-              color: C.muted,
-              fontSize: 11,
-              fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              marginBottom: 14,
-            }}
-          >
-            Achievements
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
-            {ACHIEVEMENTS.map((ach) => (
-              <Card
-                key={ach.title}
+        {/* Saved Creators */}
+        <p
+          style={{
+            color: C.muted,
+            fontSize: 11,
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            marginBottom: 16,
+          }}
+        >
+          Saved Creators
+        </p>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+          {SAVED_CREATORS.map((creator) => (
+            <div
+              key={creator.name}
+              style={{
+                background: C.surface,
+                border: `1px solid ${C.border}`,
+                borderRadius: 14,
+                padding: "16px 18px",
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
+              <div
                 style={{
-                  padding: "20px 20px",
-                  border: ach.unlocked ? `1px solid rgba(200,147,42,0.4)` : `1px solid ${C.border}`,
-                  opacity: ach.unlocked ? 1 : 0.5,
+                  width: 38,
+                  height: 38,
+                  borderRadius: "50%",
+                  background: C.magenta,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: "#fff",
+                  fontFamily: C.fontDisplay,
+                  flexShrink: 0,
                 }}
               >
-                <div
-                  style={{
-                    fontSize: 28,
-                    color: ach.unlocked ? C.gold : C.muted,
-                    marginBottom: 10,
-                  }}
-                >
-                  {ach.icon}
-                </div>
-                <p
-                  style={{
-                    color: ach.unlocked ? C.cream : C.muted,
-                    fontSize: 13,
-                    fontWeight: 600,
-                    fontFamily: C.fontBody,
-                    marginBottom: 4,
-                  }}
-                >
-                  {ach.title}
-                </p>
-                <p style={{ color: C.muted, fontSize: 11, fontFamily: C.fontBody }}>
-                  {ach.unlocked ? ach.subtitle : "Keep going to unlock this"}
-                </p>
-              </Card>
-            ))}
-          </div>
+                {creator.initials}
+              </div>
+              <p style={{ color: C.cream, fontSize: 14, fontWeight: 600, fontFamily: C.fontBody }}>
+                {creator.name}
+              </p>
+              <OutlineBtn style={{ padding: "6px 14px", fontSize: 12, borderRadius: 8 }}>
+                Following
+              </OutlineBtn>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-// ── Screen 5: Practice Hub ─────────────────────────────────────────────────
-
-function PracticeScreen() {
-  return (
-    <div
-      style={{
-        background: C.bg,
-        minHeight: "calc(100vh - 60px)",
-        padding: "36px 24px 60px",
-        fontFamily: C.fontBody,
-      }}
-    >
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <div style={{ marginBottom: 32 }}>
-          <h2
-            style={{
-              fontFamily: C.fontDisplay,
-              fontSize: 24,
-              fontWeight: 700,
-              color: C.cream,
-              marginBottom: 6,
-            }}
-          >
-            Practice Hub
-          </h2>
-          <p style={{ color: C.muted, fontSize: 13 }}>
-            Daily exercises tailored to your Yoruba A1 progress.
-          </p>
-        </div>
-
-        {/* 2x2 module grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 16,
-            marginBottom: 24,
-          }}
-        >
-          {/* Card 1: Flashcards */}
-          <Card style={{ padding: "28px 24px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
-              <span style={{ fontSize: 32, color: C.magenta }}>▣</span>
-              <span
-                style={{
-                  fontSize: 11,
-                  padding: "3px 8px",
-                  background: C.magentaDim,
-                  color: C.magentaLight,
-                  border: `1px solid rgba(194,24,91,0.25)`,
-                  borderRadius: 99,
-                  fontWeight: 600,
-                }}
-              >
-                Due today
-              </span>
-            </div>
-            <p
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 17,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 6,
-              }}
-            >
-              Flashcards
-            </p>
-            <p style={{ color: C.muted, fontSize: 13, marginBottom: 6 }}>12 cards due today</p>
-            {/* Progress bar */}
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                <span style={{ fontSize: 11, color: C.muted }}>Mastered</span>
-                <span style={{ fontSize: 11, color: C.cream, fontWeight: 600 }}>8 / 20</span>
-              </div>
-              <div style={{ height: 5, background: C.border, borderRadius: 99 }}>
-                <div style={{ height: "100%", width: "40%", background: C.magenta, borderRadius: 99 }} />
-              </div>
-            </div>
-            <MagentaBtn style={{ width: "100%", padding: "10px 0", borderRadius: 9 }}>
-              Start Review
-            </MagentaBtn>
-          </Card>
-
-          {/* Card 2: Conversation Simulator */}
-          <Card style={{ padding: "28px 24px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
-              <span style={{ fontSize: 32, color: C.magenta }}>◎</span>
-              <span
-                style={{
-                  fontSize: 11,
-                  padding: "3px 8px",
-                  background: C.goldDim,
-                  color: C.gold,
-                  border: `1px solid rgba(200,147,42,0.25)`,
-                  borderRadius: 99,
-                  fontWeight: 600,
-                }}
-              >
-                A1
-              </span>
-            </div>
-            <p
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 17,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 6,
-              }}
-            >
-              Conversation Simulator
-            </p>
-            <p style={{ color: C.muted, fontSize: 13, marginBottom: 6 }}>5 scenarios available</p>
-            <p style={{ color: C.muted, fontSize: 12, marginBottom: 20 }}>Practice real-life dialogues with instant feedback.</p>
-            <MagentaBtn style={{ width: "100%", padding: "10px 0", borderRadius: 9 }}>
-              Start Practice
-            </MagentaBtn>
-          </Card>
-
-          {/* Card 3: Pronunciation Clinic */}
-          <Card style={{ padding: "28px 24px" }}>
-            <div style={{ marginBottom: 16 }}>
-              <span style={{ fontSize: 32, color: C.magenta }}>♪</span>
-            </div>
-            <p
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 17,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 6,
-              }}
-            >
-              Pronunciation Clinic
-            </p>
-            <p style={{ color: C.muted, fontSize: 13, marginBottom: 20 }}>
-              Record and compare your pronunciation to a native speaker.
-            </p>
-            <OutlineBtn style={{ width: "100%", padding: "10px 0", borderRadius: 9, textAlign: "center" }}>
-              Open Clinic
-            </OutlineBtn>
-          </Card>
-
-          {/* Card 4: Tone Trainer */}
-          <Card style={{ padding: "28px 24px" }}>
-            <div style={{ marginBottom: 16 }}>
-              <span style={{ fontSize: 32, color: C.magenta }}>&#8767;</span>
-            </div>
-            <p
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 17,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 6,
-              }}
-            >
-              Tone Trainer
-            </p>
-            <p style={{ color: C.muted, fontSize: 13, marginBottom: 14 }}>
-              Listen and identify tonal differences.
-            </p>
-            {/* Tone chips */}
-            <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-              {[
-                { label: "High", arrow: "↗" },
-                { label: "Mid",  arrow: "→" },
-                { label: "Low",  arrow: "↘" },
-              ].map((tone) => (
-                <div
-                  key={tone.label}
-                  style={{
-                    flex: 1,
-                    textAlign: "center",
-                    padding: "8px 0",
-                    borderRadius: 8,
-                    background: C.surface2,
-                    border: `1px solid ${C.border}`,
-                  }}
-                >
-                  <div style={{ fontSize: 16, marginBottom: 2 }}>{tone.arrow}</div>
-                  <div style={{ fontSize: 10, color: C.muted }}>{tone.label}</div>
-                </div>
-              ))}
-            </div>
-            <OutlineBtn style={{ width: "100%", padding: "10px 0", borderRadius: 9, textAlign: "center" }}>
-              Train Tones
-            </OutlineBtn>
-          </Card>
-        </div>
-
-        {/* Word of the Day */}
-        <div
-          style={{
-            background: C.surface,
-            border: `1px solid rgba(200,147,42,0.35)`,
-            borderRadius: 16,
-            padding: "28px 32px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 24,
-          }}
-        >
-          <div style={{ flex: 1 }}>
-            <p
-              style={{
-                color: C.gold,
-                fontSize: 11,
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-                marginBottom: 10,
-              }}
-            >
-              Word of the Day
-            </p>
-            <p
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: 36,
-                fontWeight: 700,
-                color: C.cream,
-                marginBottom: 4,
-                lineHeight: 1.1,
-              }}
-            >
-              Àánú
-            </p>
-            <p style={{ color: C.muted, fontSize: 14, marginBottom: 12 }}>
-              Compassion
-            </p>
-            <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 16, flexWrap: "wrap" }}>
-              <span
-                style={{
-                  fontSize: 12,
-                  color: C.gold,
-                  background: C.goldDim,
-                  border: `1px solid rgba(200,147,42,0.25)`,
-                  borderRadius: 99,
-                  padding: "3px 10px",
-                  fontWeight: 600,
-                  fontFamily: "monospace",
-                }}
-              >
-                ↘ ↗ ↗
-              </span>
-              <span style={{ fontSize: 12, color: C.muted }}>
-                "Mo ni àánú fún e" — I have compassion for you
-              </span>
-            </div>
-            <MagentaBtn style={{ padding: "9px 20px", fontSize: 12, borderRadius: 8 }}>
-              Add to flashcards
-            </MagentaBtn>
-          </div>
-          <div
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: "50%",
-              background: `radial-gradient(circle, rgba(200,147,42,0.18) 0%, transparent 70%)`,
-              border: `1px solid rgba(200,147,42,0.2)`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 36,
-              flexShrink: 0,
-            }}
-          >
-            A
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── Root: orchestrates all screens ────────────────────────────────────────
+// ── Root: orchestrates all screens ─────────────────────────────────────────
 
 export default function MockupPage() {
   const [screen, setScreen] = useState(0);
 
-  function handleGoToDashboard() {
-    setScreen(1);
-  }
-
-  function handleGoToPlayer() {
-    setScreen(2);
-  }
-
   return (
-    <div
-      style={{
-        background: C.bg,
-        minHeight: "100vh",
-        fontFamily: C.fontBody,
-      }}
-    >
+    <div style={{ background: C.bg, minHeight: "100vh", fontFamily: C.fontBody }}>
       <TopNav screen={screen} setScreen={setScreen} />
-
-      {screen === 0 && <OnboardingScreen onFinish={handleGoToDashboard} />}
-      {screen === 1 && <DashboardScreen onGoPlayer={handleGoToPlayer} />}
-      {screen === 2 && <PlayerScreen />}
-      {screen === 3 && <ProgressScreen />}
-      {screen === 4 && <PracticeScreen />}
-
-      {/* Footer */}
-      <div
-        style={{
-          background: C.bg,
-          borderTop: `1px solid ${C.border}`,
-          textAlign: "center",
-          padding: "16px 24px 28px",
-        }}
-      >
+      {screen === 0 && <HomeScreen setScreen={setScreen} />}
+      {screen === 1 && <DomainScreen setScreen={setScreen} />}
+      {screen === 2 && <CreatorProfileScreen setScreen={setScreen} />}
+      {screen === 3 && <PlayerScreen setScreen={setScreen} />}
+      {screen === 4 && <MyLearningScreen setScreen={setScreen} />}
+      <div style={{ background: C.bg, borderTop: `1px solid ${C.border}`, textAlign: "center", padding: "16px 24px 28px" }}>
         <p style={{ color: C.muted, fontSize: 11, fontFamily: C.fontBody }}>
-          UI mockup, not a live product. Back to landing page at{" "}
-          <a href="/" style={{ color: C.muted, textDecoration: "underline" }}>
-            /
-          </a>
+          UI mockup — creator marketplace model. Back to landing page at{" "}
+          <a href="/" style={{ color: C.muted, textDecoration: "underline" }}>/</a>
         </p>
       </div>
     </div>
