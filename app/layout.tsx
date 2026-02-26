@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const poppins = Poppins({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const inter = Inter({
@@ -15,31 +15,34 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Learn Yoruba | Heritage Language & Culture Platform",
+  title: "Asa | African Heritage Language Learning",
   description:
-    "A premium Yoruba language and culture learning platform for the global diaspora. Cinematic storytelling meets structured language instruction. Join the waitlist.",
+    "Asa teaches African heritage languages through cinematic cultural storytelling. Yoruba, Swahili, Twi, Igbo and more — built for the global diaspora. Join the waitlist.",
   keywords: [
-    "learn Yoruba",
-    "Yoruba language course",
-    "Yoruba for beginners",
-    "Yoruba diaspora",
+    "learn Yoruba online",
+    "Swahili learning app",
+    "African language courses",
     "heritage language learning",
-    "Yoruba culture",
+    "Twi Akan online",
+    "Igbo language course",
     "African diaspora education",
-    "Yoruba online lessons",
+    "Asa language platform",
+    "learn African language",
+    "Yoruba for beginners",
   ],
   openGraph: {
-    title: "Learn Yoruba | Heritage Language & Culture Platform",
+    title: "Asa | African Heritage Language Learning",
     description:
-      "Reconnect with your roots. A premium Yoruba learning platform built for the diaspora — binge-worthy content that delivers real proficiency.",
+      "You're not learning a language. You're coming home. The first platform that teaches African heritage languages through cinematic cultural storytelling.",
     type: "website",
     locale: "en_US",
+    siteName: "Asa",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Learn Yoruba | Heritage Language & Culture Platform",
+    title: "Asa | African Heritage Language Learning",
     description:
-      "Reconnect with your roots. Premium Yoruba learning for the global diaspora.",
+      "You're not learning a language. You're coming home. Yoruba, Swahili, Twi, Igbo and more — built for the diaspora.",
   },
   robots: {
     index: true,
@@ -53,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
       <body
         style={{ fontFamily: "var(--font-body), sans-serif" }}
         className="antialiased"

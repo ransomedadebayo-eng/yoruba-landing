@@ -2,16 +2,29 @@
 
 /* ── Design tokens ─────────────────────────────────────────────────────── */
 :root {
-  --bg:         #0A0805;
-  --surface:    #12100A;
-  --surface-2:  #1C1710;
-  --border:     #2E2416;
+  /* Backgrounds — deep navy */
+  --bg:         #0B1628;
+  --surface:    #152340;
+  --surface-2:  #1E3055;
+  --border:     #2A3F60;
+
+  /* Primary action — magenta */
+  --magenta:      #C2185B;
+  --magenta-light:#E91E8C;
+  --magenta-dim:  rgba(194, 24, 91, 0.12);
+
+  /* Accent — gold */
   --gold:       #C8932A;
   --gold-light: #E8B84B;
   --gold-dim:   rgba(200, 147, 42, 0.15);
+
+  /* Text */
   --cream:      #F5EDD6;
-  --muted:      #8A7A62;
-  --font-display: var(--font-playfair, Georgia, serif);
+  --muted:      #7A90AE;
+  --off-white:  #F9FAFB;
+
+  /* Fonts */
+  --font-display: var(--font-poppins, var(--font-display-fallback, Poppins, Georgia, sans-serif));
   --font-body:    var(--font-inter, system-ui, sans-serif);
 }
 
@@ -29,7 +42,7 @@ body {
   margin: 0;
 }
 
-::selection { background: var(--gold); color: var(--bg); }
+::selection { background: var(--magenta); color: #fff; }
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
@@ -50,12 +63,14 @@ body {
 /* ── Utility classes ───────────────────────────────────────────────────── */
 .font-display { font-family: var(--font-display); }
 
-.text-gold   { color: var(--gold); }
-.text-cream  { color: var(--cream); }
-.text-muted  { color: var(--muted); }
-.bg-surface  { background: var(--surface); }
-.border-card { border: 1px solid var(--border); }
+.text-gold    { color: var(--gold); }
+.text-cream   { color: var(--cream); }
+.text-muted   { color: var(--muted); }
+.text-magenta { color: var(--magenta); }
+.bg-surface   { background: var(--surface); }
+.border-card  { border: 1px solid var(--border); }
 
+/* Shimmer on gold text */
 .gold-shimmer {
   background: linear-gradient(
     90deg,
@@ -70,12 +85,14 @@ body {
   animation: shimmer 4s linear infinite;
 }
 
+/* Radial glow — navy/magenta blend */
 .glow-bg {
   background-image:
-    radial-gradient(ellipse 60% 40% at 10% 50%, rgba(200,147,42,0.06) 0%, transparent 100%),
+    radial-gradient(ellipse 60% 40% at 10% 50%, rgba(194,24,91,0.07) 0%, transparent 100%),
     radial-gradient(ellipse 50% 35% at 90% 15%, rgba(200,147,42,0.04) 0%, transparent 100%);
 }
 
+/* ── Cards ─────────────────────────────────────────────────────────────── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -86,10 +103,40 @@ body {
   transition: border-color 0.2s, transform 0.2s;
 }
 .card-hover:hover {
-  border-color: rgba(200, 147, 42, 0.35);
+  border-color: rgba(194, 24, 91, 0.35);
   transform: translateY(-2px);
 }
 
+/* Light-mode card (for off-white sections) */
+.card-light {
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+}
+.card-light-hover {
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.card-light-hover:hover {
+  border-color: rgba(194, 24, 91, 0.3);
+  box-shadow: 0 4px 24px rgba(194, 24, 91, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────── */
+
+/* Magenta primary CTA */
+.btn-primary {
+  background: var(--magenta);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.btn-primary:hover  { opacity: 0.9; transform: translateY(-1px); }
+.btn-primary:active { opacity: 1;   transform: translateY(0); }
+
+/* Gold accent button */
 .btn-gold {
   background: var(--gold);
   color: var(--bg);
@@ -101,6 +148,7 @@ body {
 .btn-gold:hover  { opacity: 0.92; transform: translateY(-1px); }
 .btn-gold:active { opacity: 1;    transform: translateY(0); }
 
+/* Outline secondary */
 .btn-outline {
   background: transparent;
   color: var(--cream);
@@ -109,8 +157,8 @@ body {
   transition: border-color 0.15s, background 0.15s;
 }
 .btn-outline:hover {
-  border-color: rgba(200,147,42,0.5);
-  background: rgba(200,147,42,0.06);
+  border-color: rgba(194, 24, 91, 0.5);
+  background: rgba(194, 24, 91, 0.06);
 }
 
 /* ── Form elements ─────────────────────────────────────────────────────── */
@@ -127,11 +175,11 @@ body {
   -webkit-appearance: none;
   appearance: none;
 }
-.field:focus   { outline: none; border-color: var(--gold); }
+.field:focus   { outline: none; border-color: var(--magenta); }
 .field::placeholder { color: var(--muted); }
-/* Keep option legible on macOS/Windows */
-.field option { background: #1C1710; color: var(--cream); }
+.field option { background: #152340; color: var(--cream); }
 
+/* Radio cards */
 .radio-card {
   display: flex;
   align-items: center;
@@ -143,8 +191,8 @@ body {
   transition: border-color 0.15s, background 0.15s;
   background: rgba(255,255,255,0.02);
 }
-.radio-card:hover      { border-color: rgba(200,147,42,0.4); background: rgba(200,147,42,0.05); }
-.radio-card.selected   { border-color: var(--gold); background: rgba(200,147,42,0.1); }
+.radio-card:hover    { border-color: rgba(194,24,91,0.4); background: rgba(194,24,91,0.05); }
+.radio-card.selected { border-color: var(--magenta); background: var(--magenta-dim); }
 
 .radio-dot {
   width: 16px; height: 16px;
@@ -154,14 +202,15 @@ body {
   flex-shrink: 0;
   transition: border-color 0.15s;
 }
-.radio-card.selected .radio-dot { border-color: var(--gold); }
+.radio-card.selected .radio-dot { border-color: var(--magenta); }
 
 .radio-dot-inner {
   width: 8px; height: 8px;
   border-radius: 50%;
-  background: var(--gold);
+  background: var(--magenta);
 }
 
+/* Chips (budget selector) */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -177,9 +226,10 @@ body {
   color: var(--muted);
   text-align: center;
 }
-.chip:hover     { border-color: rgba(200,147,42,0.4); color: var(--cream); }
-.chip.selected  { border-color: var(--gold); background: rgba(200,147,42,0.12); color: var(--gold); }
+.chip:hover    { border-color: rgba(194,24,91,0.4); color: var(--cream); }
+.chip.selected { border-color: var(--magenta); background: var(--magenta-dim); color: var(--magenta-light); }
 
+/* Tags */
 .tag {
   font-size: 10px;
   font-weight: 500;
@@ -188,6 +238,16 @@ body {
   background: rgba(200,147,42,0.1);
   color: var(--gold);
   border: 1px solid rgba(200,147,42,0.25);
+}
+
+.tag-magenta {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: rgba(194,24,91,0.1);
+  color: var(--magenta-light);
+  border: 1px solid rgba(194,24,91,0.25);
 }
 
 .pulse { animation: pulse-dot 2s ease-in-out infinite; }
