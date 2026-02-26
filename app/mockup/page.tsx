@@ -43,14 +43,14 @@ const VOCAB = [
 ];
 
 const DOMAINS = [
-  { icon: "LG", name: "Language Learning",      tag: "Speak your roots",          creators: 12, courses: 34 },
-  { icon: "MR", name: "Marriage & Relationships", tag: "Traditions that bind",      creators: 6,  courses: 18 },
-  { icon: "CK", name: "Cooking & Cuisine",        tag: "Taste the culture",         creators: 9,  courses: 27 },
-  { icon: "FT", name: "Folktales & Storytelling", tag: "Stories that last",         creators: 7,  courses: 21 },
-  { icon: "FV", name: "Festivals & Celebrations", tag: "Live the calendar",         creators: 5,  courses: 14 },
-  { icon: "MD", name: "Music & Dance",            tag: "Move with meaning",         creators: 8,  courses: 23 },
-  { icon: "HH", name: "History & Heritage",       tag: "Know where you come from",  creators: 11, courses: 29 },
-  { icon: "FA", name: "Fashion & Textiles",        tag: "Wear your story",           creators: 4,  courses: 12 },
+  { name: "Language Learning",       tag: "Speak your roots",         creators: 12, courses: 34 },
+  { name: "Marriage & Relationships", tag: "Traditions that bind",     creators: 6,  courses: 18 },
+  { name: "Cooking & Cuisine",        tag: "Taste the culture",        creators: 9,  courses: 27 },
+  { name: "Folktales & Storytelling", tag: "Stories that last",        creators: 7,  courses: 21 },
+  { name: "Festivals & Celebrations", tag: "Live the calendar",        creators: 5,  courses: 14 },
+  { name: "Music & Dance",            tag: "Move with meaning",        creators: 8,  courses: 23 },
+  { name: "History & Heritage",       tag: "Know where you come from", creators: 11, courses: 29 },
+  { name: "Fashion & Textiles",       tag: "Wear your story",          creators: 4,  courses: 12 },
 ];
 
 const CREATORS = [
@@ -384,14 +384,10 @@ function HomeScreen({ setScreen }: { setScreen: (n: number) => void }) {
                     padding: "20px 22px",
                     cursor: "pointer",
                     transition: "border-color 0.15s",
-                    display: "flex",
-                    gap: 16,
-                    alignItems: "flex-start",
                   }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = C.magenta; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = C.border; }}
                 >
-                  <span style={{ fontSize: 28, lineHeight: 1, flexShrink: 0 }}>{domain.icon}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p
                       style={{
